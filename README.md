@@ -1,4 +1,4 @@
-# cookiecutter-hypermodern-python
+# ssb-pypitemplate
 
 <!-- badges-begin -->
 
@@ -39,16 +39,20 @@
 
 [Cookiecutter] template for a Python package based on the
 [Hypermodern Python] article series.
+This repo is a fork of [cookiecutter-hypermodern-python], and adjusted for use
+in [Statistics Norway].
 
 ✨📚✨ [Read the full documentation][readthedocs page]
 
 [cookiecutter]: https://github.com/audreyr/cookiecutter
 [hypermodern python]: https://medium.com/@cjolowicz/hypermodern-python-d44485d9d769
+[cookiecutter-hypermodern-python]: https://github.com/cjolowicz/cookiecutter-hypermodern-python.git
+[statistics norway]: https://www.ssb.no/
 
 ## Usage
 
 ```console
-cookiecutter gh:cjolowicz/cookiecutter-hypermodern-python --checkout=2022.6.3
+cookiecutter gh:statisticsnorway/ssb-pypitemplate --checkout=2023.2.24
 ```
 
 ## Features
