@@ -17,12 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: cookiecutter-hypermodern-python
+          path: ssb-pypitemplate
       - uses: actions/setup-python@v4.5.0
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install tools using pip
-        working-directory: cookiecutter-hypermodern-python
+        working-directory: ssb-pypitemplate
         run: |
           pip install --constraint=.github/workflows/constraints.txt pip
           pipx install --pip-args=--constraint=.github/workflows/constraints.txt cookiecutter
@@ -30,7 +30,7 @@ jobs:
           pipx inject --pip-args=--constraint=.github/workflows/constraints.txt nox nox-poetry
           pipx install --pip-args=--constraint=.github/workflows/constraints.txt poetry
       - name: Generate project using Cookiecutter
-        run: cookiecutter --no-input cookiecutter-hypermodern-python
+        run: cookiecutter --no-input ssb-pypitemplate
       - name: Create git repository
         if: matrix.os != 'windows-latest'
         run: |
@@ -59,14 +59,15 @@ jobs:
         shell: python
         run: |
           import hashlib
+          import subprocess
           import sys
 
           python = "py{}.{}".format(*sys.version_info[:2])
           payload = sys.version.encode() + sys.executable.encode()
           digest = hashlib.sha256(payload).hexdigest()
-          result = "${{ runner.os }}-{}-{}-pre-commit".format(python, digest)
-
-          print("::set-output name=result::{}".format(result))
+          result = "${{ runner.os }}-{}-{}-pre-commit".format(python, digest[:8])
+          cmd = f'echo "result={result}" >> $GITHUB_OUTPUT'
+          subprocess.run(cmd, shell=True)
       - uses: actions/cache@v3
         if: matrix.os != 'windows-latest'
         with:
