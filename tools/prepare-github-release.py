@@ -87,8 +87,8 @@ def prepare_release(
     "--owner",
     metavar="USER",
     required=True,
-    envvar="GITHUB_USER",
-    help="GitHub username",
+    envvar="GITHUB_ORGANIZATION",
+    help="GitHub organization or GitHub username",
 )
 @click.option(
     "--repository",

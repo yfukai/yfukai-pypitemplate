@@ -76,8 +76,8 @@ def publish_release(*, owner: str, repository_name: str, token: str, tag: str) -
     "--owner",
     metavar="USER",
     required=True,
-    envvar="GITHUB_USER",
-    help="GitHub username",
+    envvar="GITHUB_ORGANIZATION",
+    help="GitHub organization or GitHub user name",
 )
 @click.option(
     "--repository",
