@@ -6,4 +6,4 @@ max-complexity = 15
 docstring-convention = google
 rst-roles = class,const,func,meth,mod,ref
 rst-directives = deprecated
-strictness = long                         # For darglint plugin
+strictness = long
