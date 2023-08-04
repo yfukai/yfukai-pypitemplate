@@ -51,8 +51,15 @@ in [Statistics Norway].
 
 ## Usage
 
+Use [Cruft] to create and update an instance of this template.
+
 ```console
-cookiecutter gh:statisticsnorway/ssb-pypitemplate --checkout=2023.2.24
+cruft create https://github.com/statisticsnorway/ssb-pypitemplate.git
+
+# To check if there are there are template updates and update your instance with
+# the new updates, run the follwiong commands from the root directory:
+cruft check
+cruft update
 ```
 
 ## Features
@@ -82,7 +89,7 @@ cookiecutter gh:statisticsnorway/ssb-pypitemplate --checkout=2023.2.24
 - Generate command-line reference with [sphinx-click]
 - Manage project labels with [GitHub Labeler]
 
-The template supports Python 3.7, 3.8, 3.9, and 3.10.
+The template supports Python 3.8, 3.9, 3.10 and 3.11.
 
 [autodoc]: https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 [bandit]: https://github.com/PyCQA/bandit
@@ -90,6 +97,7 @@ The template supports Python 3.7, 3.8, 3.9, and 3.10.
 [click]: https://click.palletsprojects.com/
 [codecov]: https://codecov.io/
 [coverage.py]: https://coverage.readthedocs.io/
+[cruft]: https://cruft.github.io/cruft/
 [dependabot]: https://github.com/dependabot/dependabot-core
 [flake8]: http://flake8.pycqa.org
 [furo]: https://pradyunsg.me/furo/
