@@ -57,7 +57,7 @@ Use [Cruft] to create and update an instance of this template.
 cruft create https://github.com/statisticsnorway/ssb-pypitemplate.git
 
 # To check if there are there are template updates and update your instance with
-# the new updates, run the follwiong commands from the root directory:
+# the new updates, run the following commands from the root directory:
 cruft check
 cruft update
 ```

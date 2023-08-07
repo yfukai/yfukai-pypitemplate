@@ -1,5 +1,5 @@
 {{ cookiecutter.friendly_name }}
-Copyright (C) {{ cookiecutter.copyright_year }}  Statistisk sentralbyrå - Statistics Norway
+Copyright (C) {{ cookiecutter.copyright_year }} {{ cookiecutter.copyright_owner }}
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
