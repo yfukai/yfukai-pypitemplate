@@ -1,3 +1,4 @@
-# Ignore this file since it is reindented with json.dump() and that does not
+# Ignore this files since they are reindented with json.dump() and that does not
 # match the prettier format.
 .cookiecutter.json
+.cruft.json
