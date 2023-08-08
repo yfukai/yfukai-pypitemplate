@@ -12,7 +12,7 @@ repos:
         name: black
         entry: black
         language: system
-        types: [python]
+        types: [python, jupyter]
         require_serial: true
       - id: check-added-large-files
         name: Check for added large files
@@ -28,6 +28,11 @@ repos:
         entry: check-yaml
         language: system
         types: [yaml]
+      - id: check-ast
+        name: Check AST
+        entry: check-ast
+        language: system
+        types: [python]
       - id: darglint
         name: darglint
         entry: darglint
@@ -68,6 +73,6 @@ repos:
         types: [text]
         stages: [commit, push, manual]
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.6.0
+    rev: v3.0.1
     hooks:
       - id: prettier
