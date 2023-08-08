@@ -21,7 +21,6 @@ except ImportError:
     {sys.executable} -m pip install nox-poetry"""
     raise SystemExit(dedent(message)) from None
 
-
 package = "{{cookiecutter.package_name}}"
 python_versions = ["3.11", "3.10", "3.9", "3.8"]
 nox.needs_version = ">= 2021.6.6"
@@ -149,7 +148,7 @@ def safety(session: Session) -> None:
 @session(python=python_versions)
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
-    args = session.posargs or ["src", "tests", "docs/conf.py"]
+    args = session.posargs or ["src", "tests"]
     session.install(".")
     session.install("mypy", "pytest")
     session.run("mypy", *args)
@@ -213,7 +212,9 @@ def docs_build(session: Session) -> None:
         args.insert(0, "--color")
 
     session.install(".")
-    session.install("sphinx", "sphinx-click", "furo", "myst-parser")
+    session.install(
+        "sphinx", "sphinx-autodoc-typehints", "sphinx-click", "furo", "myst-parser"
+    )
 
     build_dir = Path("docs", "_build")
     if build_dir.exists():
@@ -227,7 +228,14 @@ def docs(session: Session) -> None:
     """Build and serve the documentation with live reloading on file changes."""
     args = session.posargs or ["--open-browser", "docs", "docs/_build"]
     session.install(".")
-    session.install("sphinx", "sphinx-autobuild", "sphinx-click", "furo", "myst-parser")
+    session.install(
+        "sphinx",
+        "sphinx-autobuild",
+        "sphinx-autodoc-typehints",
+        "sphinx-click",
+        "furo",
+        "myst-parser",
+    )
 
     build_dir = Path("docs", "_build")
     if build_dir.exists():

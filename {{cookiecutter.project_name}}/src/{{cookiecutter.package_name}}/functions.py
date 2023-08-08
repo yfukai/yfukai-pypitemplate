@@ -19,7 +19,7 @@ def example_function(number1: int, number2: int) -> str:
         number2: The second number, which will be compared to number1.
 
     Returns:
-        The return value. True for success, False otherwise.
+        A string describing which number is the greatest.
 
     Examples:
         Examples should be written in doctest format, and should illustrate how
