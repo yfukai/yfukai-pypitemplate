@@ -37,8 +37,8 @@ def main() -> None:
 
     dependencies = {
         canonicalize_name(dependency)
-        for section in ["dependencies", "dev-dependencies"]
-        for dependency in data["tool"]["poetry"][section].keys()
+        for section in ["dependencies"]  # TODO Handle both dev and normal dependencies
+        for dependency in data["tool"]["poetry"]["group"]["dev"][section].keys()
         if dependency != "python"
     }
 

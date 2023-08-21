@@ -99,6 +99,11 @@ $ nox -s pre-commit -- install
 2. Go to the Account Settings on PyPI, select Publishing,
    and set up a new pending publisher as described on
    [Creating a PyPI Project with a Trusted Publisher][trusted publisher].
+3. Use the following information for the new pending publisher:
+   - PyPI Project name: Name of the GitHub repo.
+   - Owner: GitHub organization name or GitHub username that owns the repository.
+   - Repository name: Name of the GitHub repo.
+   - Workflow name: `release.yml`
 
 ### TestPyPI
 
@@ -106,6 +111,11 @@ $ nox -s pre-commit -- install
 2. Go to the Account Settings on TestPyPI, select Publishing,
    and set up a new pending publisher as described on
    [Creating a PyPI Project with a Trusted Publisher][trusted publisher].
+3. Use the following information for the new pending publisher:
+   - PyPI Project name: Name of the GitHub repo.
+   - Owner: GitHub organization name or GitHub username that owns the repository.
+   - Repository name: Name of the GitHub repo.
+   - Workflow name: `release.yml`
 
 ### Codecov
 
@@ -113,6 +123,10 @@ $ nox -s pre-commit -- install
 2. Install their GitHub app.
 
 ### GitHub Pages
+
+1. Log in to [GitHub].
+2. Select Settings, Pages and set Source to "GitHub Actions" below the
+   Build and Deployment heading.
 
 [GitHub Pages] should work out of the box. The pages are deployed to<br>
 `<github username>.github.io/<repo name>` or <br>
