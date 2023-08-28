@@ -7,8 +7,10 @@ myst:
 # User Guide
 
 This is the user guide
-for the [Hypermodern Python Cookiecutter],
+for the [SSB PyPI Template],
 a Python template based on the [Hypermodern Python] article series.
+It is a fork of [Hypermodern Python Cookiecutter] and adopted for use in
+[Statistics Norway].
 
 If you're in a hurry, check out the [quickstart guide](quickstart)
 and the [tutorials](tutorials).
@@ -2729,13 +2731,15 @@ You can also read the articles on [this blog][hypermodern python blog].
 [safety]: https://github.com/pyupio/safety
 [salsify/action-detect-and-tag-new-version]: https://github.com/salsify/action-detect-and-tag-new-version
 [schlawack semantic]: https://hynek.me/articles/semver-will-not-save-you/
-[schreiner constraints]: https://iscinumpy.dev/post/bound-version-constraints/
-[schreiner poetry]: https://iscinumpy.dev/post/poetry-versions/
+[schreiner constraints]: https://iscinumpy.gitlab.io/post/bound-version-constraints/
+[schreiner poetry]: https://iscinumpy.gitlab.io/post/poetry-versions/
 [semantic versioning]: https://semver.org/
 [sphinx configuration]: https://www.sphinx-doc.org/en/master/usage/configuration.html
 [sphinx-autobuild]: https://github.com/executablebooks/sphinx-autobuild
 [sphinx-click]: https://sphinx-click.readthedocs.io/
 [sphinx]: http://www.sphinx-doc.org/
+[ssb pypi template]: https://github.com/statisticsnorway/ssb-pypitemplate
+[statistics norway]: https://www.ssb.no/
 [test fixture]: https://docs.pytest.org/en/latest/explanation/fixtures.html#about-fixtures
 [testpypi]: https://test.pypi.org/
 [toml]: https://github.com/toml-lang/toml

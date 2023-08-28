@@ -11,6 +11,7 @@
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)][pre-commit]
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)][black]
+[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)][poetry]
 
 [pypi status]: https://pypi.org/project/{{cookiecutter.project_name}}/
 [read the docs]: https://{{cookiecutter.project_name}}.readthedocs.io/
@@ -18,6 +19,7 @@
 [codecov]: https://app.codecov.io/gh/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}
 [pre-commit]: https://github.com/pre-commit/pre-commit
 [black]: https://github.com/psf/black
+[poetry]: https://python-poetry.org/
 
 ## Features
 

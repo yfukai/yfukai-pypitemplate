@@ -1,4 +1,4 @@
-# Hypermodern Python Cookiecutter
+# SSB PyPI Template
 
 ```{toctree}
 ---
@@ -23,12 +23,20 @@ end-before: <!-- badges-end -->
 ```
 
 [Cookiecutter] template for a Python package
-based on the [Hypermodern Python] article series.
+based on the [Hypermodern Python] article series,
+and adopted for use in [Statistics Norway].
 
 ## Usage
 
+Use [Cruft](https://cruft.github.io/cruft/) to create and update an instance of this template.
+
 ```console
 cruft create https://github.com/statisticsnorway/ssb-pypitemplate.git --checkout=2023.2.24
+
+# To check if there are there are template updates and update your instance with
+# the new updates, run the following commands from the root directory:
+cruft check
+cruft update
 ```
 
 ## Features
@@ -81,3 +89,4 @@ All images on the
 [hypermodern python]: https://medium.com/@cjolowicz/hypermodern-python-d44485d9d769
 [hypermodernism]: https://en.wikipedia.org/wiki/Hypermodernism_(chess)
 [retrofuturism]: https://en.wikipedia.org/wiki/Retrofuturism
+[statistics norway]: https://www.ssb.no/
