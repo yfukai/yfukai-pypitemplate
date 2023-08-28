@@ -12,7 +12,7 @@ contributing
 Code of Conduct <codeofconduct>
 license
 Major changes <changes>
-Changelog <https://github.com/cjolowicz/cookiecutter-hypermodern-python/releases>
+Changelog <https://github.com/statisticsnorway/ssb-pypitemplate/releases>
 ```
 
 ```{include} ../README.md
@@ -28,7 +28,7 @@ based on the [Hypermodern Python] article series.
 ## Usage
 
 ```console
-$ cookiecutter gh:cjolowicz/cookiecutter-hypermodern-python --checkout="2022.6.3"
+cruft create https://github.com/statisticsnorway/ssb-pypitemplate.git --checkout=2023.2.24
 ```
 
 ## Features
