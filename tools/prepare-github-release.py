@@ -11,7 +11,7 @@ import click
 import github3
 
 
-def git(*args: str, **kwargs: Any) -> str:
+def git(*args: str) -> str:
     try:
         process = subprocess.run(
             ["git", *args], check=True, capture_output=True, text=True
@@ -151,7 +151,7 @@ def main(
 
     if tag is None:
         today = datetime.date.today()
-        tag = f"{today:%Y.%-m.%-d}"
+        tag = f"{today:%Y.%m.%d}".replace(".0", ".")
 
     try:
         prepare_release(

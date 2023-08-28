@@ -32,7 +32,7 @@ Request features on the [Issue Tracker].
 
 ## How to set up your development environment
 
-You need Python 3.7+ and the following tools:
+You need Python 3.9+ and the following tools:
 
 - [Cookiecutter]
 - [Poetry]
@@ -117,6 +117,18 @@ Releases are made by publishing a GitHub Release.
 A draft release is being maintained based on merged pull requests.
 To publish the release, follow these steps:
 
+1. Click the Releases heading on the GitHub repo and check that the Release Draft is
+   OK. Edit if necessary.
+2. On a clean main-branch in the repo, run the following command:
+   `nox -s prepare_release -- --token=<your github token>` or
+   `nox -s prepare_release -- --token=<your github token> <tag>`
+3. Verify that the pull request checks are OK (green).
+4. Run the following command:
+   `nox -s publish_release -- --token=<your github token>` or
+   `nox -s prepare_release -- --token=<your github token> <tag>`
+
+Old version:
+
 1. Click **Edit** next to the draft release.
 2. Enter a tag with the new version.
 3. Enter the release title, also the new version.
@@ -135,15 +147,15 @@ After publishing the release, the following automated steps are triggered:
 [continuous integration]: https://cookiecutter-hypermodern-python.readthedocs.io/en/stable/quickstart.html#continuous-integration
 [cookiecutter]: https://cookiecutter.readthedocs.io/
 [documentation]: https://cookiecutter-hypermodern-python.readthedocs.io/
-[github]: https://github.com/cjolowicz/cookiecutter-hypermodern-python
-[issue tracker]: https://github.com/cjolowicz/cookiecutter-hypermodern-python/issues
+[github]: https://github.com/statisticsnorway/ssb-pypitemplate
+[issue tracker]: https://github.com/statisticsnorway/ssb-pypitemplate/issues
 [mit license]: https://opensource.org/license/mit/
 [nox]: https://nox.thea.codes/
 [nox-poetry]: https://nox-poetry.readthedocs.io/
 [poetry]: https://python-poetry.org/
-[pull request]: https://github.com/cjolowicz/cookiecutter-hypermodern-python/pulls
+[pull request]: https://github.com/statisticsnorway/ssb-pypitemplate/pulls
 [read the docs]: https://cookiecutter-hypermodern-python.readthedocs.io/
-[source code]: https://github.com/cjolowicz/cookiecutter-hypermodern-python
+[source code]: https://github.com/statisticsnorway/ssb-pypitemplate
 [user guide]: https://cookiecutter-hypermodern-python.readthedocs.io/en/latest/guide.html#how-to-test-your-project
 
 <!-- github-only -->
