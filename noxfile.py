@@ -8,7 +8,7 @@ from nox.sessions import Session
 nox.options.sessions = ["docs"]
 owner, repository = "statisticsnorway", "ssb-pypitemplate"
 labels = "cookiecutter", "documentation"
-bump_paths = "README.md", "docs/guide.rst", "docs/index.rst", "docs/quickstart.md"
+bump_paths = "README.md", "docs/guide.md", "docs/index.md", "docs/quickstart.md"
 
 
 @nox.session(name="prepare-release")

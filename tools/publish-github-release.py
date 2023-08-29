@@ -31,8 +31,11 @@ def publish_release(*, owner: str, repository_name: str, token: str, tag: str) -
     except ValueError:
         raise RuntimeError("there should be exactly one draft release")
 
-    if commit.status().state != "success":
-        raise RuntimeError(f"checks for #{pull_request.number} have failed")
+    cs_state = commit.status().state
+    # Allow pending state since the status always seems to be empty, hence state
+    # pending, even if green checkmark on commit in GitHub web page.
+    if cs_state != "success" and cs_state != "pending":
+        raise RuntimeError(f"checks for #{pull_request.number} have failed: {cs_state}")
 
     if pull_request.is_merged():
         raise RuntimeError(f"#{pull_request.number} has been merged already")
@@ -104,7 +107,7 @@ def main(owner: str, repository: str, token: str, tag: Optional[str]) -> None:
     """
     if tag is None:
         today = datetime.date.today()
-        tag = f"{today:%Y.%-m.%-d}"
+        tag = f"{today:%Y.%m.%d}".replace(".0", ".")
 
     try:
         publish_release(

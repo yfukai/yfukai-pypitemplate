@@ -80,3 +80,18 @@ jobs:
       - name: Install dependencies using Poetry
         run: poetry install --ansi
         working-directory: ssb-library
+  doc:
+    name: Build documentation & check links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4.7.0
+        with:
+          python-version: "3.11"
+      - run: |
+          pip install --constraint=.github/workflows/constraints.txt pip
+          pip install --constraint=.github/workflows/constraints.txt nox
+      - name: Build documentation
+        run: nox --force-color --session=docs
+      - name: Check links
+        run: nox --force-color --session=linkcheck

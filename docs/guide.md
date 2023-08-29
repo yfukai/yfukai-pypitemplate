@@ -7,8 +7,10 @@ myst:
 # User Guide
 
 This is the user guide
-for the [Hypermodern Python Cookiecutter],
+for the [SSB PyPI Template],
 a Python template based on the [Hypermodern Python] article series.
+It is a fork of [Hypermodern Python Cookiecutter] and adopted for use in
+[Statistics Norway].
 
 If you're in a hurry, check out the [quickstart guide](quickstart)
 and the [tutorials](tutorials).
@@ -59,7 +61,7 @@ Here is a detailed list of features for this Python template:
 
 The {{ HPC }} uses [Calendar Versioning] with a `YYYY.MM.DD` versioning scheme.
 
-The current stable release is [2022.6.3].
+The current stable release is [2023.2.24].
 
 (installation)=
 
@@ -212,10 +214,10 @@ $ poetry self update
 
 Create a project from this template
 by pointing Cookiecutter to its [GitHub repository][hypermodern python cookiecutter].
-Use the `--checkout` option with the [current stable release][2022.6.3]:
+Use the `--checkout` option with the [current stable release][2023.2.24]:
 
 ```console
-$ cookiecutter gh:cjolowicz/cookiecutter-hypermodern-python --checkout="2022.6.3"
+$ cookiecutter gh:cjolowicz/cookiecutter-hypermodern-python --checkout="2023.2.24"
 ```
 
 Cookiecutter downloads the template,
@@ -257,7 +259,7 @@ Here is a complete list of the project variables defined by this template:
   - `0.0.0`
 - - `copyright_year`
   - The project copyright year
-  - `2022`
+  - `2023`
 - - `license`
   - The project license
   - `MIT`
@@ -2581,7 +2583,7 @@ You can also read the articles on [this blog][hypermodern python blog].
 [.github/dependabot.yml]: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 [.gitignore]: https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring
 [.readthedocs.yml]: https://docs.readthedocs.io/en/stable/config-file/v2.html
-[2022.6.3]: https://github.com/cjolowicz/cookiecutter-hypermodern-python/releases/tag/2022.6.3
+[2023.2.24]: https://github.com/cjolowicz/cookiecutter-hypermodern-python/releases/tag/2023.2.24
 [__main__]: https://docs.python.org/3/library/__main__.html
 [abstract syntax tree]: https://docs.python.org/3/library/ast.html
 [actions/cache]: https://github.com/actions/cache
@@ -2729,13 +2731,15 @@ You can also read the articles on [this blog][hypermodern python blog].
 [safety]: https://github.com/pyupio/safety
 [salsify/action-detect-and-tag-new-version]: https://github.com/salsify/action-detect-and-tag-new-version
 [schlawack semantic]: https://hynek.me/articles/semver-will-not-save-you/
-[schreiner constraints]: https://iscinumpy.dev/post/bound-version-constraints/
-[schreiner poetry]: https://iscinumpy.dev/post/poetry-versions/
+[schreiner constraints]: https://iscinumpy.gitlab.io/post/bound-version-constraints/
+[schreiner poetry]: https://iscinumpy.gitlab.io/post/poetry-versions/
 [semantic versioning]: https://semver.org/
 [sphinx configuration]: https://www.sphinx-doc.org/en/master/usage/configuration.html
 [sphinx-autobuild]: https://github.com/executablebooks/sphinx-autobuild
 [sphinx-click]: https://sphinx-click.readthedocs.io/
 [sphinx]: http://www.sphinx-doc.org/
+[ssb pypi template]: https://github.com/statisticsnorway/ssb-pypitemplate
+[statistics norway]: https://www.ssb.no/
 [test fixture]: https://docs.pytest.org/en/latest/explanation/fixtures.html#about-fixtures
 [testpypi]: https://test.pypi.org/
 [toml]: https://github.com/toml-lang/toml

@@ -30,14 +30,14 @@ $ pipx inject nox nox-poetry
 
 [pipx] is preferred, but you can also install with `pip install --user`.
 
-It is recommended to set up Python 3.8, 3.9, 3.10 and 3.11 using [pyenv].
+It is recommended to set up Python 3.9, 3.10 and 3.11 using [pyenv].
 
 ## Creating a project
 
 Generate a Python project:
 
 ```console
-$ cruft create https://github.com/statisticsnorway/ssb-pypitemplate.git
+cruft create https://github.com/statisticsnorway/ssb-pypitemplate.git --checkout=2023.2.24
 ```
 
 Change to the root directory of your new project,
@@ -99,6 +99,11 @@ $ nox -s pre-commit -- install
 2. Go to the Account Settings on PyPI, select Publishing,
    and set up a new pending publisher as described on
    [Creating a PyPI Project with a Trusted Publisher][trusted publisher].
+3. Use the following information for the new pending publisher:
+   - PyPI Project name: Name of the GitHub repo.
+   - Owner: GitHub organization name or GitHub username that owns the repository.
+   - Repository name: Name of the GitHub repo.
+   - Workflow name: `release.yml`
 
 ### TestPyPI
 
@@ -106,6 +111,11 @@ $ nox -s pre-commit -- install
 2. Go to the Account Settings on TestPyPI, select Publishing,
    and set up a new pending publisher as described on
    [Creating a PyPI Project with a Trusted Publisher][trusted publisher].
+3. Use the following information for the new pending publisher:
+   - PyPI Project name: Name of the GitHub repo.
+   - Owner: GitHub organization name or GitHub username that owns the repository.
+   - Repository name: Name of the GitHub repo.
+   - Workflow name: `release.yml`
 
 ### Codecov
 
@@ -114,9 +124,26 @@ $ nox -s pre-commit -- install
 
 ### GitHub Pages
 
-[GitHub Pages] should work out of the box. The pages are deployed to<br>
+1. Log in to [GitHub].
+2. Select Settings, Pages and set Source to "GitHub Actions" below the
+   Build and Deployment heading.
+
+[GitHub Pages] should then work out of the box. The pages are deployed to<br>
 `<github username>.github.io/<repo name>` or <br>
 `<github organization>.github.io/<repo name>`.
+
+### SonarCloud
+
+1. Log in to [SonarCloud] with your GitHub account.
+2. Click the plus-sign at upper right and select _Analyze new project_,
+   select your organization and the new repo to analyze, and then click
+   the _Set Up_ button.
+3. Set _new code_ to be based on _Number of days_ and 60 days (suggestion).
+   And then click the _Create project_ button.
+4. Choose Analysis Method: _With GitHub Actions_.
+5. Follow the description to add a GitHub repository secret for the `SONAR_TOKEN`.
+6. That's it. The next time code are pushed to a branch or merged to main on GitHub,
+   the code will be analysed by SonarCloud.
 
 ## Releasing
 
@@ -171,5 +198,6 @@ by applying labels to them, like this:
 [pyenv]: https://github.com/pyenv/pyenv
 [pypi]: https://pypi.org/
 [read the docs]: https://readthedocs.org/
+[sonarcloud]: https://www.sonarsource.com/products/sonarcloud/
 [testpypi]: https://test.pypi.org/
 [trusted publisher]: https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/
