@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: pip
     directory: "/docs"
     schedule:
-      interval: daily
+      interval: weekly
       time: "04:00"
       timezone: "Europe/Berlin"
     labels:
@@ -11,10 +11,14 @@ updates:
       - "dependencies"
       - "python"
     open-pull-requests-limit: 99
+    groups:
+      docs-dependencies:
+        patterns:
+          - "*"
   - package-ecosystem: pip
     directory: "/.github/workflows"
     schedule:
-      interval: daily
+      interval: weekly
       time: "04:00"
       timezone: "Europe/Berlin"
     labels:
@@ -22,10 +26,14 @@ updates:
       - "dependencies"
       - "python"
     open-pull-requests-limit: 99
+    groups:
+      workflows-dependencies:
+        patterns:
+          - "*"
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: daily
+      interval: weekly
       time: "04:00"
       timezone: "Europe/Berlin"
     labels:
@@ -33,3 +41,20 @@ updates:
       - "dependencies"
       - "github_actions"
     open-pull-requests-limit: 99
+    groups:
+      github-actions-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+      time: "04:00"
+      timezone: "Europe/Berlin"
+    versioning-strategy: auto
+    allow:
+      - dependency-type: "all"
+    groups:
+      poetry-dependencies:
+        patterns:
+          - "*"
