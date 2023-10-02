@@ -12,8 +12,6 @@ html_theme = "furo"
 html_logo = "_static/ssb_logo.svg"
 linkcheck_ignore = [
     "codeofconduct.html",
-    "https://github.com/PyCQA/flake8-bugbear#",
-    "https://github.com/peterjc/flake8-rst-docstrings#",
     "https://github.com/pre-commit/pre-commit-hooks#",
     "https://github.com/pycqa/pep8-naming#",
     "https://github.com/terrencepreilly/darglint#",
