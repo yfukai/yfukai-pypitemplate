@@ -57,7 +57,13 @@ source = ["{{cookiecutter.package_name}}", "tests"]
 
 [tool.coverage.report]
 show_missing = true
+{% if cookiecutter.code_quality_level == "High" %}
 fail_under = 80
+{% elif cookiecutter.code_quality_level == "Medium" %}
+fail_under = 50
+{% else %}
+fail_under = 20
+{% endif %}
 
 [tool.mypy]
 strict = true
@@ -72,36 +78,32 @@ show-fixes = true
 src = ["src", "tests"]
 target-version = "py39"  # Minimum Python version supported
 
-# Aggressively activate all rules.
-# These may be customized as desired: https://beta.ruff.rs/docs/rules/
-# CodeQualityLevel == HIGH
+# Ruff rules may be customized as desired: https://beta.ruff.rs/docs/rules/
+{% if cookiecutter.code_quality_level == "High" %}
 select = ["ALL"]
-
-# Alternatively activate one or more of these groups for CodeQualityLevel == MEDIUM
-#select = [
-#    "A",    # prevent using keywords that clobber python builtins
-#    "B",    # bugbear: security warnings
-#    "E",    # pycodestyle
-#    "F",    # pyflakes
-#    "ISC",  # implicit string concatenation
-#    "I",    # sort imports
-#    "UP",   # alert you when better syntax is available in your python version
-#    "RUF",  # the ruff developer's own rules
-#]
-
-# Alternatively activate one or more of these groups for CodeQualityLevel == LOW
-#select = [
-#    "E",    # pycodestyle
-#    "F",    # pyflakes
-#]
-
+{% elif cookiecutter.code_quality_level == "Medium" %}
+select = [
+    "A",    # prevent using keywords that clobber python builtins
+    "B",    # bugbear: security warnings
+    "E",    # pycodestyle
+    "F",    # pyflakes
+    "ISC",  # implicit string concatenation
+    "I",    # sort imports
+    "UP",   # alert you when better syntax is available in your python version
+    "RUF",  # the ruff developer's own rules
+]
+{% else %}
+select = [
+    "E",    # pycodestyle
+    "F",    # pyflakes
+]
+{% endif %}
 ignore = [
     "ANN101", # Supress missing-type-self.
     "D100",   # Supress undocumented-public-module. Only doc of public api required.
     "E402",   # Supress module-import-not-at-top-of-file, needed in jupyter notebooks.
     "E501",   # Supress line-too-long warnings: trust black's judgement on this one.
 ]
-
 include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
 extend-exclude = [
     "__pycache__",
