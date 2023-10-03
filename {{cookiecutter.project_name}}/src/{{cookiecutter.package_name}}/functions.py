@@ -15,16 +15,13 @@ def example_function(number1: int, number2: int) -> str:
 
 
     Args:
-    ----
         number1: The first number.
         number2: The second number, which will be compared to number1.
 
     Returns:
-    -------
         A string describing which number is the greatest.
 
     Examples:
-    --------
         Examples should be written in doctest format, and should illustrate how
         to use the function.
 

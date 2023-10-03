@@ -1,7 +1,7 @@
 ---
 myst:
   substitutions:
-    HPC: "*Hypermodern Python Cookiecutter*"
+    SPT: "*SSB PyPI Template*"
 ---
 
 # User Guide
@@ -19,7 +19,7 @@ and the [tutorials](tutorials).
 
 ### About this project
 
-The {{ HPC }} is a general-purpose template for Python libraries and applications,
+The {{ SPT }} is a general-purpose template for Python libraries and applications,
 released under the [MIT license]
 and hosted on [GitHub][hypermodern python cookiecutter].
 
@@ -59,7 +59,7 @@ Here is a detailed list of features for this Python template:
 
 ### Version policy
 
-The {{ HPC }} uses [Calendar Versioning] with a `YYYY.MM.DD` versioning scheme.
+The {{ SPT }} uses [Calendar Versioning] with a `YYYY.MM.DD` versioning scheme.
 
 The current stable release is [2023.9.5].
 
@@ -103,7 +103,7 @@ py -VV
 Both of these commands should display the latest Python version, 3.10.
 
 For local testing with multiple Python versions,
-repeat these steps for the latest bugfix releases of Python 3.7+,
+repeat these steps for the latest bugfix releases of Python 3.9+,
 with the following changes:
 
 - Do _not_ enable the option to add Python to the `PATH` environment variable.
@@ -139,13 +139,12 @@ Install the Python build dependencies for your platform,
 using one of the commands listed in the [official instructions][pyenv wiki].
 
 Install the latest point release of every supported Python version.
-This project template supports Python 3.7, 3.8, 3.9, and 3.10.
+This project template supports Python 3.9, 3.10 and 3.11.
 
 ```console
-$ pyenv install 3.7.12
-$ pyenv install 3.8.12
-$ pyenv install 3.9.10
-$ pyenv install 3.10.2
+$ pyenv install 3.9.18
+$ pyenv install 3.10.13
+$ pyenv install 3.11.6
 ```
 
 After creating your project (see [below](creating-a-project)),
@@ -153,12 +152,12 @@ you can make these Python versions accessible in the project directory,
 using the following command:
 
 ```console
-$ pyenv local 3.10.2 3.9.10 3.8.12 3.7.12
+$ pyenv local 3.11.6 3.10.13 3.9.18
 ```
 
 The first version listed is the one used when you type plain `python`.
 Every version can be used by invoking `python<major.minor>`.
-For example, use `python3.7` to invoke Python 3.7.
+For example, use `python3.9` to invoke Python 3.9.
 
 ### Requirements
 
@@ -173,22 +172,21 @@ use [pip install] with the `--user` option instead.
 
 You need four tools to use this template:
 
-- [Cookiecutter] to create projects from the template,
+- [Cruft] to create projects from the template,
 - [Poetry] to manage packaging and dependencies
 - [Nox] to automate checks and other tasks
 - [nox-poetry] for using Poetry in Nox sessions
 
-Install [Cookiecutter] using pipx:
+Install [Cruft] using pipx:
 
 ```console
-$ pipx install cookiecutter
+$ pipx install cruft[pyproject]
 ```
 
-Install [Poetry] by running the poetry installer script available at
-[install.python-poetry.org]:
+Install [Poetry] using pipx:
 
 ```console
-$ curl -sSL https://install.python-poetry.org | python3 -
+$ pipx install poetry
 ```
 
 Install [Nox] and [nox-poetry] using pipx:
@@ -201,9 +199,9 @@ $ pipx inject nox nox-poetry
 Remember to upgrade these tools regularly:
 
 ```console
-$ pipx upgrade cookiecutter
+$ pipx upgrade cruft
 $ pipx upgrade --include-injected nox
-$ poetry self update
+$ pipx upgrade poetry
 ```
 
 ## Project creation
@@ -213,7 +211,7 @@ $ poetry self update
 ### Creating a project
 
 Create a project from this template
-by pointing Cookiecutter to its [GitHub repository][hypermodern python cookiecutter].
+by pointing Cruft to its [GitHub repository][ssb pypi template].
 Use the `--checkout` option with the [current stable release][2023.9.5]:
 
 ```console
@@ -247,16 +245,16 @@ Here is a complete list of the project variables defined by this template:
   - `SSB Library`
 - - `copyright_owner`
   - Copyright owner
-  - Statistics Norway
+  - `Statistics Norway`
 - - `copyright_year`
   - The project copyright year
   - `2023`
 - - `author`
   - Name of the contact person
-  - Ola Nordmann
+  - `Ola Nordmann`
 - - `email`
   - E-mail address of the contact person
-  - ola.normann@ssb.no
+  - `ola.nordmann@ssb.no`
 - - `github_organization`
   - GitHub organization or GitHub username of the author
   - `statisticsnorway`
@@ -269,6 +267,9 @@ Here is a complete list of the project variables defined by this template:
 - - `development_status`
   - Development status of the project
   - `Development Status :: 4 - Beta`
+- - `code_quality_level`
+  - Requirements for code quality level
+  - `Medium`
 
 :::
 
@@ -372,6 +373,8 @@ For more details on these files, refer to the section [The initial package](the-
   - Package initialization
 - - `src/<project>/__main__.py`
   - Command-line interface
+- - `src/<project>/functions.py`
+  - Library functions example
 
 :::
 
@@ -385,6 +388,8 @@ For more details on these files, refer to the section [The test suite](the-test-
   - Test package initialization
 - - `tests/test_main.py`
   - Test cases for `__main__`
+- - `tests/test_functions.py`
+  - Test cases for `functions.py`
 
 :::
 
@@ -455,8 +460,6 @@ and links each file to a section with more details.
   - Configuration for [darglint](darglint-integration)
 - - `.github/dependabot.yml`
   - Configuration for [Dependabot](dependabot-integration)
-- - `.flake8`
-  - Configuration for [Flake8](the-flake8-hook)
 - - `.gitattributes`
   - [Git attributes][.gitattributes]
 - - `.gitignore`
@@ -467,10 +470,6 @@ and links each file to a section with more details.
   - Configuration for [GitHub Labeler](the-labeler-workflow)
 - - `.pre-commit-config.yaml`
   - Configuration for [pre-commit](linting-with-pre-commit)
-- - `.readthedocs.yml`
-  - Configuration for [Read the Docs](read-the-docs-integration)
-- - `codecov.yml`
-  - Configuration for [Codecov](codecov-integration)
 - - `docs/conf.py`
   - Configuration for [Sphinx](documentation)
 - - `noxfile.py`
@@ -480,6 +479,8 @@ and links each file to a section with more details.
     [Coverage.py](the-coverage-session),
     [isort](the-isort-hook),
     and [mypy](type-checking-with-mypy)
+- - `sonar-project.properties`
+  - Configuration for [SonarCloud]
 
 :::
 
@@ -495,8 +496,6 @@ Follow the links for more details on these.
 
 - - `poetry.lock`
   - [Poetry lock file](the-lock-file)
-- - `docs/requirements.txt`
-  - Requirements file for [Read the Docs](read-the-docs-integration)
 - - `.github/workflows/constraints.txt`
   - Constraints file for [GitHub Actions workflows](workflow-constraints)
 
@@ -514,6 +513,7 @@ src
 └── <package>
     ├── __init__.py
     ├── __main__.py
+    ├── functions.py
     └── py.typed
 ```
 
@@ -546,6 +546,10 @@ src
   $ python -m <package> [<options>]
   ```
 
+`functions.py`
+
+: This file declares library functions, just as an example.
+
 `py.typed`
 
 : This is an empty marker file,
@@ -569,6 +573,7 @@ The test suite is located in the `tests` directory:
 ```
 tests
 ├── __init__.py
+├── test_functions.py
 └── test_main.py
 ```
 
@@ -580,6 +585,8 @@ Initially, the test suite contains a single test case,
 checking whether the program exits with a status code of zero.
 It also provides a [test fixture] using [click.testing.CliRunner],
 a helper class for invoking the program from within tests.
+
+The file `test_functions.py` contains tests for the `functions` module.
 
 For details on how to run the test suite,
 refer to the section [The tests session](the-tests-session).
@@ -659,15 +666,10 @@ The `docs` directory contains two more files:
 
 : This Python file contains the [Sphinx configuration].
 
-`requirements.txt`
-
-: The requirements file pins the build dependencies for the Sphinx documentation.
-  This file is only used on Read the Docs.
-
 <!-- prettier-ignore-end -->
 
 The project documentation is built and hosted on
-[Read the Docs](read-the-docs-integration),
+[GitHub Pages],
 and uses the [furo] Sphinx theme.
 
 You can also build the documentation locally using Nox,
@@ -758,7 +760,7 @@ Poetry writes a version constraint to `pyproject.toml`.
 Dependencies are kept in two TOML tables:
 
 - `tool.poetry.dependencies`---for core dependencies
-- `tool.poetry.dev-dependencies`---for development dependencies
+- `tool.poetry.group.dev.dependencies`---for development dependencies
 
 By default, version constraints added by Poetry have both a lower and an upper bound:
 
@@ -847,24 +849,12 @@ See the table below for an overview of the dependencies of generated projects:
   - Code coverage measurement for Python
 - - [darglint]
   - A utility for ensuring Google-style docstrings stay up to date with the source code.
-- - [flake8]
-  - the modular source code checker: pep8 pyflakes and co
-- - [flake8-bandit]
-  - Automated security testing with bandit and flake8.
-- - [flake8-bugbear]
-  - A plugin for flake8 finding likely bugs and design problems in your program.
-- - [flake8-docstrings]
-  - Extension for flake8 which uses pydocstyle to check docstrings
-- - [flake8-rst-docstrings]
-  - Python docstring reStructuredText (RST) validator
 - - [furo]
   - A clean customisable Sphinx documentation theme.
 - - [isort]
   - A Python utility / library to sort Python imports.
 - - [mypy]
   - Optional static typing for Python
-- - [pep8-naming]
-  - Check PEP-8 naming conventions, plugin for flake8
 - - [pre-commit]
   - A framework for managing and maintaining multi-language pre-commit hooks.
 - - [pre-commit-hooks]
@@ -873,8 +863,8 @@ See the table below for an overview of the dependencies of generated projects:
   - Pygments is a syntax highlighting package written in Python.
 - - [pytest]
   - pytest: simple powerful testing with Python
-- - [pyupgrade]
-  - A tool to automatically upgrade syntax for newer versions.
+- - [ruff]
+  - A fast python linter, replacing several other tools.
 - - [safety]
   - Checks installed dependencies for known vulnerabilities.
 - - [sphinx]
@@ -910,8 +900,8 @@ $ poetry show
 Use the command [poetry add] to add a dependency for your package:
 
 ```console
-$ poetry add foobar        # for core dependencies
-$ poetry add --dev foobar  # for development dependencies
+$ poetry add foobar         # for core dependencies
+$ poetry add -G dev foobar  # for development dependencies
 ```
 
 :::{important}
@@ -936,7 +926,7 @@ $ poetry update foobar
 ```
 
 :::{note}
-Dependencies in the {{ HPC }} are managed by [Dependabot](dependabot-integration).
+Dependencies in the {{ SPT }} are managed by [Dependabot](dependabot-integration).
 When newer versions of dependencies become available,
 Dependabot updates the `poetry.lock` file and submits a pull request.
 :::
@@ -987,14 +977,13 @@ for every Python version supported by your project,
 and easily switch between them:
 
 ```console
-$ poetry env use 3.7
-$ poetry env use 3.8
 $ poetry env use 3.9
 $ poetry env use 3.10
+$ poetry env use 3.11
 ```
 
 Only one Poetry environment can be active at any time.
-Note that `3.10` comes last,
+Note that `3.11` comes last,
 to ensure that the current Python release is the active environment.
 Install your package with `poetry install` into each environment after creating it.
 
@@ -1044,7 +1033,7 @@ as described in the section [Using Nox](using-nox).
 ### Building and distributing the package
 
 :::{note}
-With the {{ HPC }},
+With the {{ SPT }},
 building and distributing your package
 is taken care of by [GitHub Actions].
 For more information,
@@ -1167,7 +1156,7 @@ For example, the following may be more practical during development
 (this will only run tests and type checks, on the current Python release):
 
 ```console
-$ nox -p 3.10 -rs tests mypy
+$ nox -p 3.11 -rs tests mypy
 ```
 
 Many sessions accept additional options after `--` separator.
@@ -1193,39 +1182,39 @@ The following table gives an overview of the available Nox sessions:
   - Default
 - - [coverage](the-coverage-session)
   - Report coverage with [Coverage.py]
-  - `3.10`
+  - `3.11`
   - (✓)
 - - [docs](the-docs-session)
   - Build and serve [Sphinx] documentation
-  - `3.10`
+  - `3.11`
   -
 - - [docs-build](the-docs-build-session)
   - Build [Sphinx] documentation
-  - `3.10`
+  - `3.11`
   - ✓
 - - [mypy](the-mypy-session)
   - Type-check with [mypy]
-  - `3.7` … `3.10`
+  - `3.9` … `3.11`
   - ✓
 - - [pre-commit](the-pre-commit-session)
   - Lint with [pre-commit]
-  - `3.10`
+  - `3.11`
   - ✓
 - - [safety](the-safety-session)
   - Scan dependencies with [Safety]
-  - `3.10`
+  - `3.11`
   - ✓
 - - [tests](the-tests-session)
   - Run tests with [pytest]
-  - `3.7` … `3.10`
+  - `3.9` … `3.11`
   - ✓
 - - [typeguard](the-typeguard-session)
   - Type-check with [Typeguard]
-  - `3.10`
+  - `3.11`
   - ✓
 - - [xdoctest](the-xdoctest-session)
   - Run examples with [xdoctest]
-  - `3.7` … `3.10`
+  - `3.9` … `3.11`
   - ✓
 
 :::
@@ -1285,7 +1274,7 @@ For example, the following command runs mypy
 using the current stable release of Python:
 
 ```console
-$ nox --session=mypy --python=3.10
+$ nox --session=mypy --python=3.11
 ```
 
 Use the separator `--` to pass additional options and arguments to `mypy`.
@@ -1324,7 +1313,7 @@ $ nox --session=pre-commit -- install
 
 [Safety] checks the dependencies of your project for known security vulnerabilities,
 using a curated database of insecure Python packages.
-The {{ HPC }} uses the [poetry export] command
+The {{ SPT }} uses the [poetry export] command
 to convert Poetry's lock file to a [requirements file],
 for consumption by Safety.
 
@@ -1359,7 +1348,7 @@ For example, the following command runs the test suite
 using the current stable release of Python:
 
 ```console
-$ nox --session=tests --python=3.10
+$ nox --session=tests --python=3.11
 ```
 
 Use the separator `--` to pass additional options to `pytest`.
@@ -1486,7 +1475,7 @@ For example, the following command runs the examples
 using the current stable release of Python:
 
 ```console
-$ nox --session=xdoctest --python=3.10
+$ nox --session=xdoctest --python=3.11
 ```
 
 By default, the Nox session uses the `all` subcommand to run all examples.
@@ -1558,7 +1547,7 @@ how this project template integrates pre-commit with Poetry and Nox.
 You can safely skip this section.
 :::
 
-Python-language hooks in the {{ HPC }} are not managed by pre-commit.
+Python-language hooks in the {{ SPT }} are not managed by pre-commit.
 Instead, they are tracked as development dependencies in Poetry,
 and installed into the Nox session alongside pre-commit itself.
 As development dependencies, they are also present in the Poetry environment.
@@ -1593,14 +1582,14 @@ and adding the official pre-commit hooks instead.
 Don't forget to remove the hooks from Poetry's dependencies and from the Nox session.
 
 :::{note}
-Python-language hooks in the {{ HPC }} are defined as [system hooks][pre-commit system hooks].
+Python-language hooks in the {{ SPT }} are defined as [system hooks][pre-commit system hooks].
 System hooks don't have their environments managed by pre-commit;
 instead, pre-commit assumes that hook dependencies have already been installed
 and are available in its environment.
 The Nox session for pre-commit takes care of
 installing the Python hooks alongside pre-commit.
 
-Furthermore, the {{ HPC }} defines Python-language hooks as [repository-local hooks][pre-commit repository-local hooks].
+Furthermore, the {{ SPT }} defines Python-language hooks as [repository-local hooks][pre-commit repository-local hooks].
 As such, hook definitions are not supplied by the hook repositories,
 but by the project itself.
 This makes it possible to override the hook language to `system`, as explained above.
@@ -1699,21 +1688,19 @@ For example, use `poetry run flake8 <file>` to lint a modified file with Flake8.
 
 ### Overview of pre-commit hooks
 
-The {{ HPC }} comes with a pre-commit configuration consisting of the following hooks:
+The {{ SPT }} comes with a pre-commit configuration consisting of the following hooks:
 
 :::{list-table} pre-commit hooks
 :widths: auto
 
 - - [black]
   - Run the [Black] code formatter
-- - [flake8]
-  - Run the [Flake8] linter
+- - [ruff]
+  - Run the [Ruff] linter
 - - [isort]
   - Rewrite source code to sort Python imports
 - - [prettier]
   - Run the [Prettier] code formatter
-- - [pyupgrade]
-  - Upgrade syntax to newer versions of Python
 - - [check-added-large-files]
   - Prevent giant files from being committed
 - - [check-toml]
@@ -1738,13 +1725,13 @@ Blackened code looks the same regardless of the project you're reading.
 [Prettier] is an opinionated code formatter for many languages,
 including YAML, Markdown, and JavaScript.
 Like Black, it has few options,
-and the {{ HPC }} uses none of them.
+and the {{ SPT }} uses none of them.
 
 (the-flake8-hook)=
 
-### The Flake8 hook
+### The Ruff hook
 
-[Flake8] is an extensible linter framework for Python.
+[Ruff] is a fast linter framework for Python.
 For more details, see the section [Linting with Flake8](linting-with-flake8).
 
 (the-isort-hook)=
@@ -1760,7 +1747,7 @@ the other at the bottom for [relative imports].
 Within each section, `from` imports follow normal imports.
 Imports are then sorted alphabetically.
 
-The {{ HPC }} activates the [Black profile][isort black profile] for compatibility with the Black code formatter.
+The {{ SPT }} activates the [Black profile][isort black profile] for compatibility with the Black code formatter.
 Furthermore, the [force_single_line][isort force_single_line] setting is enabled.
 This splits imports onto separate lines to avoid merge conflicts.
 Finally, two blank lines are enforced after imports for consistency,
@@ -1787,7 +1774,7 @@ from the [pre-commit-hooks] repository.
 
 [Flake8] is an extensible linter framework for Python,
 and a command-line utility to run the linters on your source code.
-The {{ HPC }} integrates Flake8 via a [pre-commit] hook,
+The {{ SPT }} integrates Flake8 via a [pre-commit] hook,
 see the section [The Flake8 hook](the-flake8-hook).
 
 The configuration file for Flake8 and its extensions
@@ -1795,12 +1782,12 @@ is named `.flake8` and located in the project directory.
 For details about the configuration file, see the [official reference][flake8 configuration].
 
 The sections below describe the linters in more detail.
-Each section also notes any configuration settings applied by the {{ HPC }}.
+Each section also notes any configuration settings applied by the {{ SPT }}.
 
 ### Overview of available plugins
 
 Flake8 comes with a rich ecosystem of plugins.
-The following table lists the Flake8 plugins used by the {{ HPC }},
+The following table lists the Flake8 plugins used by the {{ SPT }},
 and links to their lists of error codes.
 
 :::{list-table} Flake8 plugins
@@ -1818,12 +1805,6 @@ and links to their lists of error codes.
 - - [pydocstyle] / [flake8-docstrings]
   - Enforce docstring conventions from [PEP 257]
   - [D][pydocstyle codes]
-- - [flake8-rst-docstrings]
-  - Find invalid [reStructuredText] in docstrings
-  - [RST][flake8-rst-docstrings codes]
-- - [flake8-bugbear]
-  - Detect bugs and design problems
-  - [B][flake8-bugbear codes]
 - - [mccabe]
   - Limit the code complexity
   - [C][mccabe codes]
@@ -1861,7 +1842,7 @@ It is included with [Flake8] by default.
 
 [Error codes][pycodestyle codes] are prefixed by `W` for warnings and `E` for errors.
 
-The {{ HPC }} disables the following errors and warnings
+The {{ SPT }} disables the following errors and warnings
 for compatibility with [Black] and [flake8-bugbear]:
 
 - `E203` (whitespace before `:`)
@@ -1887,7 +1868,7 @@ issues with whitespace, quoting, and docstring content.
 
 [Error codes][pydocstyle codes] are prefixed by `D` for "docstring".
 
-The {{ HPC }} selects the recommendations of the
+The {{ SPT }} selects the recommendations of the
 [Google styleguide][google docstring style].
 Here is an example of a function documented in Google style:
 
@@ -1906,7 +1887,7 @@ def add(first: int, second: int) -> int:
 
 ### flake8-rst-docstrings
 
-[flake8-rst-docstrings] validates docstring markup as [reStructuredText].
+flake8-rst-docstrings validates docstring markup as [reStructuredText].
 Docstrings must be valid reStructuredText
 because they are used by Sphinx to generate the API reference.
 
@@ -1915,15 +1896,15 @@ and group issues into numerical blocks, by their severity and origin.
 
 ### flake8-bugbear
 
-[flake8-bugbear] detects bugs and design problems.
+flake8-bugbear detects bugs and design problems.
 The warnings are more opinionated than those of pyflakes or pycodestyle.
 For example,
 the plugin detects Python 2 constructs which have been removed in Python 3,
 and likely bugs such as function arguments defaulting to empty lists or dictionaries.
 
-[Error codes][flake8-bugbear codes] are prefixed by `B` for "bugbear".
+[Error codes] are prefixed by `B` for "bugbear".
 
-The {{ HPC }} also enables Bugbear's `B9` warnings,
+The {{ SPT }} also enables Bugbear's `B9` warnings,
 which are disabled by default.
 In particular, `B950` checks the maximum line length
 like [pycodestyle]'s `E501`,
@@ -1939,7 +1920,7 @@ The tool is included with [Flake8].
 
 [Error codes][mccabe codes] are prefixed by `C` for "complexity".
 
-The {{ HPC }} limits code complexity to a value of 10.
+The {{ SPT }} limits code complexity to a value of 10.
 
 (darglint-integration)=
 
@@ -1950,7 +1931,7 @@ The tool has its own configuration file, named `.darglint`.
 
 [Error codes][darglint codes] are prefixed by `DAR` for "darglint".
 
-The {{ HPC }} allows one-line docstrings without function signatures.
+The {{ SPT }} allows one-line docstrings without function signatures.
 Multi-line docstrings must
 specify the function signatures completely and correctly,
 using [Google docstring style].
@@ -1965,7 +1946,7 @@ and integrated via the [flake8-bandit] extension.
 (The prefix `B` for "bandit" is used
 when Bandit is run as a stand-alone tool.)
 
-The {{ HPC }} disables `S101` (use of assert) for the test suite,
+The {{ SPT }} disables `S101` (use of assert) for the test suite,
 as [pytest] uses assertions to verify expectations in tests.
 
 (type-checking-with-mypy)=
@@ -2002,7 +1983,7 @@ mypy is configured in the `pyproject.toml` file,
 using the `tool.mypy` table. For details about supported configuration
 options, see the [official reference][mypy configuration].
 
-The {{ HPC }} enables several configuration options which are off by default.
+The {{ SPT }} enables several configuration options which are off by default.
 The following options are enabled for strictness and enhanced output:
 
 - {option}`strict <mypy --strict>`
@@ -2130,7 +2111,7 @@ Your documentation now has a public URL like this:
 
 The configuration for Read the Docs is included in the repository,
 in the file [.readthedocs.yml].
-The {{ HPC }} configures Read the Docs
+The {{ SPT }} configures Read the Docs
 to build and install the package with Poetry,
 using a so-called [PEP 517][pep 517]-build.
 
@@ -2153,7 +2134,7 @@ don't forget to update the requirements file as well.
 
 ## GitHub Actions workflows
 
-The {{ HPC }} uses [GitHub Actions]
+The {{ SPT }} uses [GitHub Actions]
 to implement continuous integration and delivery.
 With GitHub Actions,
 you define so-called workflows
@@ -2176,7 +2157,7 @@ from the _Actions_ tab in your GitHub repository.
 
 ### Overview of workflows
 
-The {{ HPC }} defines the following workflows:
+The {{ SPT }} defines the following workflows:
 
 :::{list-table} GitHub Actions workflows
 :header-rows: 1
@@ -2632,7 +2613,6 @@ You can also read the articles on [this blog][hypermodern python blog].
 [flake8-bugbear codes]: https://github.com/PyCQA/flake8-bugbear#list-of-warnings
 [flake8-bugbear]: https://github.com/PyCQA/flake8-bugbear
 [flake8-docstrings]: https://github.com/pycqa/flake8-docstrings
-[flake8-rst-docstrings codes]: https://github.com/peterjc/flake8-rst-docstrings#flake8-validation-codes
 [flake8-rst-docstrings]: https://github.com/peterjc/flake8-rst-docstrings
 [flake8]: http://flake8.pycqa.org
 [furo]: https://pradyunsg.me/furo/
@@ -2659,7 +2639,6 @@ You can also read the articles on [this blog][hypermodern python blog].
 [hypermodern python cookiecutter]: https://github.com/cjolowicz/cookiecutter-hypermodern-python
 [hypermodern python]: https://medium.com/@cjolowicz/hypermodern-python-d44485d9d769
 [import hook]: https://docs.python.org/3/reference/import.html#import-hooks
-[install.python-poetry.org]: https://install.python-poetry.org
 [isort black profile]: https://pycqa.github.io/isort/docs/configuration/black_compatibility.html
 [isort force_single_line]: https://pycqa.github.io/isort/docs/configuration/options.html#force-single-line
 [isort lines_after_imports]: https://pycqa.github.io/isort/docs/configuration/options.html#lines-after-imports
@@ -2731,6 +2710,7 @@ You can also read the articles on [this blog][hypermodern python blog].
 [release-drafter/release-drafter]: https://github.com/release-drafter/release-drafter
 [requirements file]: https://pip.readthedocs.io/en/stable/user_guide/#requirements-files
 [restructuredtext]: https://docutils.sourceforge.io/rst.html
+[ruff]: https://docs.astral.sh/ruff/
 [safety]: https://github.com/pyupio/safety
 [salsify/action-detect-and-tag-new-version]: https://github.com/salsify/action-detect-and-tag-new-version
 [schlawack semantic]: https://hynek.me/articles/semver-will-not-save-you/

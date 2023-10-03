@@ -18,5 +18,7 @@
     "Development Status :: 6 - Mature",
     "Development Status :: 7 - Inactive"
   ],
-  "_copy_without_render": ["*.rst_t"]
+  "code_quality_level": ["Medium", "High", "Low"],
+  "_copy_without_render": ["*.rst_t"],
+  "_jinja2_env_vars": { "lstrip_blocks": true, "trim_blocks": true }
 }
