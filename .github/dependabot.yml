@@ -1,59 +1,40 @@
 version: 2
 updates:
-  - package-ecosystem: pip
+  - package-ecosystem: "pip"
     directory: "/docs"
     schedule:
-      interval: weekly
-      time: "04:00"
-      timezone: "Europe/Berlin"
-    labels:
-      - "cookiecutter"
-      - "dependencies"
-      - "python"
+      interval: "weekly"
     open-pull-requests-limit: 99
     groups:
       docs-dependencies:
         patterns:
           - "*"
-  - package-ecosystem: pip
+  - package-ecosystem: "pip"
     directory: "/.github/workflows"
     schedule:
-      interval: weekly
-      time: "04:00"
-      timezone: "Europe/Berlin"
-    labels:
-      - "cookiecutter"
-      - "dependencies"
-      - "python"
+      interval: "weekly"
     open-pull-requests-limit: 99
     groups:
       workflows-dependencies:
         patterns:
           - "*"
-  - package-ecosystem: github-actions
+  - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: weekly
-      time: "04:00"
-      timezone: "Europe/Berlin"
-    labels:
-      - "cookiecutter"
-      - "dependencies"
-      - "github_actions"
+      interval: "weekly"
     open-pull-requests-limit: 99
     groups:
       github-actions-dependencies:
         patterns:
           - "*"
-  - package-ecosystem: pip
-    directory: "/"
+  - package-ecosystem: "pip"
+    directory: "/{{cookiecutter.project_name}}"
     schedule:
-      interval: weekly
-      time: "04:00"
-      timezone: "Europe/Berlin"
-    versioning-strategy: auto
+      interval: "weekly"
+    versioning-strategy: lockfile-only
     allow:
       - dependency-type: "all"
+    open-pull-requests-limit: 99
     groups:
       poetry-dependencies:
         patterns:
