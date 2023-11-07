@@ -236,7 +236,7 @@ Here is a complete list of the project variables defined by this template:
   - Example
 - - `project_name`
   - Project name on PyPI and GitHub repo name
-  - `ssb_library`
+  - `ssb-library`
 - - `package_name`
   - Import name of the package
   - `ssb_library`
