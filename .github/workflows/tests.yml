@@ -35,7 +35,7 @@ jobs:
           pipx inject --pip-args=--constraint=.github/workflows/constraints.txt nox nox-poetry
           pipx install --pip-args=--constraint=.github/workflows/constraints.txt poetry
       - name: Generate project using Cookiecutter
-        run: cookiecutter --no-input ssb-pypitemplate 'project_name'='ssb-library'
+        run: cookiecutter --no-input ssb-pypitemplate project_name=ssb-library
       - name: Create git repository
         if: matrix.os != 'windows-latest'
         run: |
