@@ -1,5 +1,5 @@
 {
-  "project_name": "ssb-library",
+  "project_name": null,
   "package_name": "{{ cookiecutter.project_name.replace('-', '_') }}",
   "friendly_name": "{{ cookiecutter.project_name.replace('-', ' ').title().replace('Ssb', 'SSB') }}",
   "copyright_owner": "Statistics Norway",
