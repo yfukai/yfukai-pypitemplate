@@ -133,6 +133,7 @@ classmethod-decorators = ["classmethod", "validator", "root_validator", "pydanti
     # return annotations don't add value for test functions
     "ANN201",
     # docstrings are overkill for test functions
+    "D102",
     "D103",
     "D100",
 ]
