@@ -43,18 +43,43 @@ You need Python 3.9+ and the following tools:
 - [Nox]
 - [nox-poetry]
 
+Install [pipx]:
+
+```console
+python -m pip install --user pipx
+python -m pipx ensurepath
+```
+
+Install [Poetry]:
+
+```console
+pipx install poetry
+```
+
+Install [Nox] and [nox-poetry]:
+
+```console
+pipx install nox
+pipx inject nox nox-poetry
+```
+
+Install the pre-commit hooks
+
+```console
+nox --session=pre-commit -- install
+```
+
 Install the package with development requirements:
 
 ```console
-$ poetry install
+poetry install
 ```
 
-You can now run an interactive Python session,
-or the command-line interface:
+You can now run an interactive Python session, or your app:
 
 ```console
-$ poetry run python
-$ poetry run {{cookiecutter.project_name}}
+poetry run python
+poetry run {{cookiecutter.project_name}}
 ```
 
 [poetry]: https://python-poetry.org/
@@ -66,20 +91,20 @@ $ poetry run {{cookiecutter.project_name}}
 Run the full test suite:
 
 ```console
-$ nox
+nox
 ```
 
 List the available Nox sessions:
 
 ```console
-$ nox --list-sessions
+nox --list-sessions
 ```
 
 You can also run a specific Nox session.
 For example, invoke the unit test suite like this:
 
 ```console
-$ nox --session=tests
+nox --session=tests
 ```
 
 Unit tests are located in the _tests_ directory,
@@ -102,7 +127,7 @@ Feel free to submit early, though—we can always iterate on this.
 To run linting and code formatting checks before committing your change, you can install pre-commit as a Git hook by running the following command:
 
 ```console
-$ nox --session=pre-commit -- install
+nox --session=pre-commit -- install
 ```
 
 It is recommended to open an issue before starting work on anything.
