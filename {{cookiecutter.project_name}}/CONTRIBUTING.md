@@ -11,11 +11,6 @@ Here is a list of important resources for contributors:
 - [Issue Tracker]
 - [Code of Conduct]
 
-[{{cookiecutter.license.replace("-", " ").lower()}} license]: https://opensource.org/licenses/{{cookiecutter.license}}
-[source code]: https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}
-[documentation]: https://{{cookiecutter.github_organization}}.github.io/{{cookiecutter.project_name}}
-[issue tracker]: https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}/issues
-
 ## How to report a bug
 
 Report bugs on the [Issue Tracker].
@@ -82,10 +77,6 @@ poetry run python
 poetry run {{cookiecutter.project_name}}
 ```
 
-[poetry]: https://python-poetry.org/
-[nox]: https://nox.thea.codes/
-[nox-poetry]: https://nox-poetry.readthedocs.io/
-
 ## How to test the project
 
 Run the full test suite:
@@ -110,8 +101,6 @@ nox --session=tests
 Unit tests are located in the _tests_ directory,
 and are written using the [pytest] testing framework.
 
-[pytest]: https://pytest.readthedocs.io/
-
 ## How to submit changes
 
 Open a [pull request] to submit changes to this project.
@@ -133,6 +122,15 @@ nox --session=pre-commit -- install
 It is recommended to open an issue before starting work on anything.
 This will allow a chance to talk it over with the owners and validate your approach.
 
+[{{cookiecutter.license.replace("-", " ").lower()}} license]: https://opensource.org/licenses/{{cookiecutter.license}}
+[source code]: https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}
+[documentation]: https://{{cookiecutter.github_organization}}.github.io/{{cookiecutter.project_name}}
+[issue tracker]: https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}/issues
+[pipx]: https://pipx.pypa.io/
+[poetry]: https://python-poetry.org/
+[nox]: https://nox.thea.codes/
+[nox-poetry]: https://nox-poetry.readthedocs.io/
+[pytest]: https://pytest.readthedocs.io/
 [pull request]: https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}/pulls
 
 <!-- github-only -->
