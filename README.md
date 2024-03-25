@@ -109,7 +109,7 @@ cruft update
 - Generate command-line reference with [sphinx-click]
 - Manage project labels with [GitHub Labeler]
 
-The template supports Python 3.9, 3.10 and 3.11.
+The template supports Python 3.10, 3.10 and 3.12.
 
 [autodoc]: https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 [black]: https://github.com/psf/black

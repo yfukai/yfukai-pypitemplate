@@ -30,7 +30,7 @@ pipx inject nox nox-poetry
 
 [pipx] is preferred, but you can also install with `pip install --user`.
 
-It is recommended to set up Python 3.9, 3.10 and 3.11 using [pyenv].
+It is recommended to set up Python 3.10, 3.11 and 3.12 using [pyenv].
 
 ## Creating a project
 
