@@ -1404,9 +1404,9 @@ and specifies the target coverage percentage.
 Coverage is measured for the package as well as [the test suite itself][batchelder include].
 
 During continuous integration,
-coverage data is uploaded to the [Codecov] reporting service.
+coverage data is uploaded to the [SonarCloud] reporting service.
 For details, see the sections about
-[Codecov](codecov-integration) and
+[SonarCloud](sonarcloud-integration) and
 [The Tests workflow](the-tests-workflow).
 
 (the-typeguard-session)=
@@ -2033,22 +2033,33 @@ Follow these steps to set up TestPyPI for your repository:
 TestPyPI is integrated with your repository
 via the [Release workflow](the-release-workflow).
 
-(codecov-integration)=
+(sonarcloud-integration)=
 
-### Codecov
+### SonarCloud
 
-[Codecov] is a reporting service for code coverage.
+[SonarCloud] is a reporting service for code quality and code coverage.
 
-Follow these steps to set up Codecov for your repository:
+Follow these steps to set up SonarCloud for your repository:
 
-1. Sign up at [Codecov].
-2. Install their GitHub app.
+1. Sign up at [SonarClod] with your GitHub account.
+2. If you don't have an organization in SonarCloud yet, create one.
+   1. Click the plus-sign at upper right and select _Create new organization_.
+   2. If you have a GitHub organization, import it. Otherwise, create one manually.
+   3. **Important**: Set the _key_-field equal to your GitHub username.
+      The _name_-field can be whatever you like.
+3. Click the plus-sign at upper right and select _Analyze new project_,
+   select your organization and the new repo to analyze, and then click
+   the _Set Up_ button.
+4. Set _new code_ to be based on _Number of days_ and 60 days (suggestion).
+   And then click the _Create project_ button.
+5. Select _Administration_, _Analysis Method_ and choose method: _With GitHub Actions_.
+6. Follow the description to add a GitHub repository secret for the `SONAR_TOKEN`.
+7. That's it. The next time a pull request is opened or a branch or merged to main
+   on GitHub, the code will be analysed by SonarCloud.
 
 The configuration is included in the repository,
-in the file [codecov.yml][codecov configuration].
+in the file [sonar-project.properties][sonarcloud configuration].
 
-Codecov integrates with your repository
-via its GitHub app.
 The [Tests workflow](the-tests-workflow) uploads the coverage data.
 
 (dependabot-integration)=
@@ -2198,8 +2209,8 @@ Workflows use the following GitHub Actions:
   - Set up workflows with a specific Python version
 - - [actions/upload-artifact]
   - Upload artifacts from workflows
-- - [codecov/codecov-action]
-  - Upload coverage to Codecov
+- - [sonarsource/sonarcloud-github-action]
+  - Upload coverage to SonarCloud
 - - [crazy-max/ghaction-github-labeler]
   - Manage labels on GitHub as code
 - - [pypa/gh-action-pypi-publish]
@@ -2260,7 +2271,7 @@ as shown in the table below:
   - Python versions
 - - [pre-commit](the-pre-commit-session)
   - Ubuntu
-  - 3.12
+  - 3.10
 - - [mypy](the-mypy-session)
   - Ubuntu
   - 3.10, 3.11, 3.12
@@ -2276,9 +2287,15 @@ as shown in the table below:
 - - [coverage](the-coverage-session)
   - Ubuntu
   - 3.12
+- - [typeguard](the-typeguard-session)
+  - Ubuntu
+  - 3.10
+- - [xdoctest](the-xdoctest-session)
+  - Ubuntu
+  - 3.10
 - - [docs-build](the-docs-build-session)
   - Ubuntu
-  - 3.12
+  - 3.10
 
 :::
 
@@ -2286,11 +2303,11 @@ The workflow uploads the generated documentation as a [workflow artifact][github
 Building the documentation only serves the purpose of catching issues in pull requests.
 Builds on [Read the Docs] happen independently.
 
-The workflow also uploads coverage data to [Codecov] after running tests.
+The workflow also uploads coverage data to [SonarCloud] after running tests.
 It generates a coverage report in [Cobertura] XML format,
 using the [coverage session](the-coverage-session).
 The report is uploaded
-using the official [Codecov GitHub Action][codecov/codecov-action].
+using the official [SonarSource GitHub Action][sonarsource/sonarcloud-github-action].
 
 The Tests workflow uses the following GitHub Actions:
 
@@ -2299,7 +2316,7 @@ The Tests workflow uses the following GitHub Actions:
 - [actions/download-artifact] to download the coverage data of each tests session
 - [actions/cache] for caching pre-commit environments
 - [actions/upload-artifact] to upload the generated documentation and the coverage data of each tests session
-- [codecov/codecov-action] for uploading to [Codecov]
+- [sonarsource/sonarcloud-github-action] for uploading to [SonarCloud]
 
 The Tests workflow is defined in `.github/workflows/tests.yml`.
 
@@ -2585,9 +2602,6 @@ You can also read the articles on [this blog][hypermodern python blog].
 [click.testing.clirunner]: https://click.palletsprojects.com/en/7.x/testing/
 [click]: https://click.palletsprojects.com/
 [cobertura]: https://cobertura.github.io/cobertura/
-[codecov configuration]: https://docs.codecov.com/docs/codecov-yaml
-[codecov/codecov-action]: https://github.com/codecov/codecov-action
-[codecov]: https://about.codecov.io/
 [constraints file]: https://pip.pypa.io/en/stable/user_guide/#constraints-files
 [contributor covenant]: https://www.contributor-covenant.org
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
@@ -2713,6 +2727,9 @@ You can also read the articles on [this blog][hypermodern python blog].
 [schreiner constraints]: https://iscinumpy.gitlab.io/post/bound-version-constraints/
 [schreiner poetry]: https://iscinumpy.gitlab.io/post/poetry-versions/
 [semantic versioning]: https://semver.org/
+[sonarcloud]: https://www.sonarsource.com/products/sonarcloud/
+[sonarcloud configuration]: https://docs.sonarsource.com/sonarcloud/enriching/test-coverage/python-test-coverage/#add-the-coverage-analysis-parameter
+[sonarsource/sonarcloud-github-action]: https://github.com/SonarSource/sonarcloud-github-action
 [sphinx configuration]: https://www.sphinx-doc.org/en/master/usage/configuration.html
 [sphinx-autobuild]: https://github.com/executablebooks/sphinx-autobuild
 [sphinx-click]: https://sphinx-click.readthedocs.io/
