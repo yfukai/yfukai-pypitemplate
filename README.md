@@ -28,7 +28,7 @@
 [github actions page]: https://github.com/statisticsnorway/ssb-pypitemplate/actions?workflow=Tests
 [github page]: https://github.com/statisticsnorway/ssb-pypitemplate
 [license badge]: https://img.shields.io/github/license/statisticsnorway/ssb-pypitemplate
-[license]: https://opensource.org/licenses/MIT
+[license]: https://opensource.org/license/mit/
 [pre-commit badge]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
 [pre-commit project]: https://pre-commit.com/
 [python version badge]: https://img.shields.io/pypi/pyversions/ssb-pypitemplate-instance

@@ -2105,13 +2105,8 @@ It manages the following dependencies:
 Follow these steps to set up Read the Docs for your repository:
 
 1. Sign up at [Read the Docs].
-2. Import your GitHub repository,
-   using the button _Import a Project_.
-3. Install the GitHub [webhook][readthedocs webhooks],
-   using the button _Add integration_
-   on the _Integrations_ tab
-   in the _Admin_ section of your project
-   on Read the Docs.
+2. [Prepare][readthedocs prepare-github] your reposity on GitHUb
+3. [Import the GitHub project][readthedocs import] to Read the Docs.
 
 Read the Docs automatically starts building your documentation,
 and will continue to do so when you push to the default branch or make a release.
@@ -2714,7 +2709,8 @@ You can also read the articles on [this blog][hypermodern python blog].
 [python website]: https://www.python.org/
 [pyupgrade]: https://github.com/asottile/pyupgrade
 [read the docs]: https://readthedocs.org/
-[readthedocs webhooks]: https://docs.readthedocs.io/en/stable/webhooks.html
+[readthedocs import]: https://docs.readthedocs.io/en/stable/tutorial/index.html#importing-the-project-to-read-the-docs
+[readthedocs prepare-github]: https://docs.readthedocs.io/en/stable/tutorial/index.html#preparing-your-repository-on-github
 [relative imports]: https://docs.python.org/3/reference/import.html#package-relative-imports
 [release drafter]: https://github.com/release-drafter/release-drafter
 [release-drafter/release-drafter]: https://github.com/release-drafter/release-drafter
