@@ -130,7 +130,7 @@ To publish the release, follow these steps:
    instead of the commands in 2 and 4:
    ```shell
    nox -s prepare-release -- --token=<your github token> <tag>
-   nox -s prepare-release -- --token=<your github token> <tag>
+   nox -s publish-release -- --token=<your github token> <tag>
    ```
 
 Version numbers adhere to [Calendar Versioning],
