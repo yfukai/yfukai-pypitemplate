@@ -34,6 +34,7 @@ jobs:
       - name: Install Poetry
         run: |
           pip install -c ${{ github.workspace }}/.github/workflows/constraints.txt poetry
+          pipx inject poetry poetry-plugin-export
           poetry --version
 {% endraw %}
 
