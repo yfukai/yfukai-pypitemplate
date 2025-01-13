@@ -19,6 +19,7 @@ Install [Poetry]:
 
 ```console
 pipx install poetry
+pipx inject poetry poetry-plugin-export
 ```
 
 Install [Nox] and [nox-poetry]:
