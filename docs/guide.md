@@ -119,7 +119,7 @@ use [pyenv] for installing and managing Python versions.
 Please refer to the documentation of this project
 for detailed installation and usage instructions.
 (The following instructions assume that
-your system already has [bash] and [curl] installed.)
+your system already has bash and [curl] installed.)
 
 Install [pyenv] like this:
 
@@ -2586,7 +2586,6 @@ You can also read the articles on [this blog][hypermodern python blog].
 [autodoc]: https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 [bandit codes]: https://bandit.readthedocs.io/en/latest/plugins/index.html#complete-test-plugin-listing
 [bandit]: https://github.com/PyCQA/bandit
-[bash]: https://www.gnu.org/software/bash/
 [batchelder include]: https://nedbatchelder.com/blog/202008/you_should_include_your_tests_in_coverage.html
 [black]: https://github.com/psf/black
 [calendar versioning]: https://calver.org
