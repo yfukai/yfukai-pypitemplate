@@ -100,7 +100,7 @@ python -VV
 py -VV
 ```
 
-Both of these commands should display the latest Python version, 3.10.
+Both of these commands should display the latest Python version, 3.13.
 
 For local testing with multiple Python versions,
 repeat these steps for the latest bugfix releases of Python 3.10+,
@@ -139,12 +139,13 @@ Install the Python build dependencies for your platform,
 using one of the commands listed in the [official instructions][pyenv wiki].
 
 Install the latest point release of every supported Python version.
-This project template supports Python 3.10, 3.11 and 3.12.
+This project template supports Python 3.10, 3.11, 3.12 and 3.13.
 
 ```console
-pyenv install 3.10.13
-pyenv install 3.11.6
-pyenv install 3.12.2
+pyenv install 3.10.16
+pyenv install 3.11.11
+pyenv install 3.12.9
+pyenv install 3.13.2
 ```
 
 After creating your project (see [below](creating-a-project)),
