@@ -1,24 +1,31 @@
-[tool.poetry]
+[project]
 name = "{{cookiecutter.project_name}}"
 version = "{{cookiecutter.version}}"
 description = "{{cookiecutter.friendly_name}}"
-authors = ["{{cookiecutter.author}} <{{cookiecutter.email}}>"]
+authors = [{name = "{{cookiecutter.author}}", email = "{{cookiecutter.email}}"}]
 license = "{{cookiecutter.license}}"
 readme = "README.md"
+dynamic = ["classifiers"]
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "click (>=8.0.1)"
+]
+
+[project.urls]
 homepage = "https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}"
 repository = "https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}"
 documentation = "https://{{cookiecutter.github_organization}}.github.io/{{cookiecutter.project_name}}"
-{% if cookiecutter.package_name != cookiecutter.project_name.replace('-', '_') -%}
-packages = [{ include = "{{cookiecutter.package_name}}", from = "src" }]
-{% endif -%}
-classifiers = ["{{cookiecutter.development_status}}"]
-
-[tool.poetry.urls]
 Changelog = "https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}/releases"
 
-[tool.poetry.dependencies]
-python = "^3.10"
-click = ">=8.0.1"
+[project.scripts]
+{{cookiecutter.project_name}} = "{{cookiecutter.package_name}}.__main__:main"
+
+[tool.poetry]
+classifiers = ["{{cookiecutter.development_status}}"]
+requires-poetry = ">=2.0"
+{% if cookiecutter.package_name != cookiecutter.project_name.replace('-', '_') %}
+packages = [{ include = "{{cookiecutter.package_name}}", from = "src" }]
+{% endif %}
 
 [tool.poetry.group.dev.dependencies]
 pygments = ">=2.10.0"
@@ -39,11 +46,11 @@ typeguard = ">=2.13.3"
 xdoctest = { extras = ["colors"], version = ">=0.15.10" }
 myst-parser = { version = ">=0.16.1" }
 
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1.9"
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
-
-[tool.poetry.scripts]
-{{cookiecutter.project_name}} = "{{cookiecutter.package_name}}.__main__:main"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
