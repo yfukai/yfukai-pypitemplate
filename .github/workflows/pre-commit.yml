@@ -6,13 +6,16 @@ on:
       - master
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
     name: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5.4.0
+      - uses: actions/setup-python@v5.6.0
         with:
           python-version: "3.12"
       - run: |
