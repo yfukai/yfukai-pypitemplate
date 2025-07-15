@@ -30,12 +30,14 @@ def validate_department_number():
         sys.exit(1)
 
     # Read the CSV file and create a lookup table
-    template_dir = r"{{ cookiecutter._template }}"  # path to the template root dir
-    department_file = (
-        Path(template_dir).resolve() / "hooks" / "statistics_norway_departments.csv"
-    )
+    # Use the directory containing this script as the template root
+    template_dir = Path(__file__).parent.parent
+
+    # The department file is stored in a temp directory. Need to search for it.
+    department_file = next(template_dir.rglob("hooks/statistics_norway_departments.csv"), None)
+
     department_lookup = {}
-    if department_file.exists():
+    if department_file and department_file.exists():
         with department_file.open(encoding="utf-8") as csvfile:
             reader = csv.DictReader(csvfile, delimiter=";")
             for row in reader:
