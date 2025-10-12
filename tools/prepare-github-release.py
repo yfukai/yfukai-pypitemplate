@@ -9,6 +9,11 @@ from typing import Optional
 
 import click
 import github3
+from github_app_auth import (
+    GitHubAppAuthenticationError,
+    get_installation_token,
+    load_private_key,
+)
 
 
 def git(*args: str) -> str:
@@ -98,13 +103,6 @@ def prepare_release(
     help="GitHub repository",
 )
 @click.option(
-    "--token",
-    metavar="TOKEN",
-    required=True,
-    envvar="GITHUB_TOKEN",
-    help="GitHub API token",
-)
-@click.option(
     "--remote",
     metavar="REMOTE",
     default="origin",
@@ -129,16 +127,44 @@ def prepare_release(
     multiple=True,
     help="labels for the pull request (may be specified multiple times)",
 )
+@click.option(
+    "--app-id",
+    metavar="APP_ID",
+    required=True,
+    envvar="GITHUB_APP_ID",
+    help="GitHub App identifier",
+)
+@click.option(
+    "--installation-id",
+    metavar="INSTALLATION_ID",
+    required=True,
+    envvar="GITHUB_APP_INSTALLATION_ID",
+    help="GitHub App installation identifier",
+)
+@click.option(
+    "--private-key-path",
+    type=click.Path(path_type=Path),
+    envvar="GITHUB_APP_PRIVATE_KEY_PATH",
+    help="Path to the GitHub App private key (PEM format)",
+)
+@click.option(
+    "--private-key",
+    envvar="GITHUB_APP_PRIVATE_KEY",
+    help="GitHub App private key contents",
+)
 @click.argument("tag", required=False)
 def main(
     owner: str,
     repository: str,
-    token: str,
     remote: str,
     base: str,
     bump: Iterable[str],
     labels: Iterable[str],
     tag: Optional[str],
+    app_id: str,
+    installation_id: str,
+    private_key_path: Optional[Path],
+    private_key: Optional[str],
 ) -> None:
     """Open a pull request to release this project.
 
@@ -154,17 +180,25 @@ def main(
         tag = f"{today:%Y.%m.%d}".replace(".0", ".")
 
     try:
+        installation_token = get_installation_token(
+            app_id=app_id,
+            installation_id=installation_id,
+            private_key=load_private_key(
+                private_key=private_key, private_key_path=private_key_path
+            ),
+        )
+
         prepare_release(
             owner=owner,
             repository_name=repository,
-            token=token,
+            token=installation_token,
             remote=remote,
             base=base,
             bump_paths=[Path(path) for path in bump],
             label_names=list(labels),
             tag=tag,
         )
-    except Exception as error:
+    except (GitHubAppAuthenticationError, Exception) as error:
         click.secho(f"error: {error}", fg="red")
         sys.exit(1)
 

@@ -1,4 +1,9 @@
 [project]
+{% set license_classifiers = {
+    "MIT": "License :: OSI Approved :: MIT License",
+    "Apache-2.0": "License :: OSI Approved :: Apache Software License",
+    "GPL-3.0": "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+} %}
 name = "{{cookiecutter.project_name}}"
 version = "{{cookiecutter.version}}"
 description = "{{cookiecutter.friendly_name}}"
@@ -9,20 +14,16 @@ maintainers = [{ name = "__DEPARTMENT_NAME__" }]
 license = "{{cookiecutter.license}}"
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-dynamic = ["classifiers"]
-{% else %}
 classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
-  "License :: OSI Approved :: MIT License",
-  "Development Status :: 4 - Beta",
+  "{{cookiecutter.development_status}}",
+  "{{ license_classifiers[cookiecutter.license] }}",
   "Typing :: Typed",
 ]
-{% endif %}
 dependencies = [
     "click>=8.0.1",
 ]
@@ -30,43 +31,12 @@ dependencies = [
 [project.urls]
 homepage = "https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}"
 repository = "https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}"
-documentation = "https://{{cookiecutter.github_organization}}.github.io/{{cookiecutter.project_name}}"
+documentation = "https://{{cookiecutter.project_name}}.readthedocs.io/"
 Changelog = "https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}/releases"
 
 [project.scripts]
 {{cookiecutter.project_name}} = "{{cookiecutter.package_name}}.__main__:main"
 
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-[tool.poetry]
-classifiers = ["{{cookiecutter.development_status}}"]
-requires-poetry = ">=2.0"
-{% if cookiecutter.package_name != cookiecutter.project_name.replace('-', '_') %}
-packages = [{ include = "{{cookiecutter.package_name}}", from = "src" }]
-{% endif %}
-
-[tool.poetry.group.dev.dependencies]
-pygments = ">=2.10.0"
-black = { extras = ["jupyter"], version = ">=23.1.0" }
-coverage = { extras = ["toml"], version = ">=6.2" }
-darglint = ">=1.8.1"
-furo = ">=2021.11.12"
-mypy = ">=0.930"
-pre-commit = ">=2.16.0"
-pre-commit-hooks = ">=4.1.0"
-ruff = ">=0.0.284"
-pytest = ">=6.2.5"
-sphinx = ">=6.2.1"
-sphinx-autobuild = ">=2021.3.14"
-sphinx-autodoc-typehints = ">=1.24.0"
-sphinx-click = ">=3.0.2"
-typeguard = ">=2.13.3"
-xdoctest = { extras = ["colors"], version = ">=0.15.10" }
-myst-parser = { version = ">=0.16.1" }
-deptry = ">=0.23.0"
-
-[tool.poetry.requires-plugins]
-poetry-plugin-export = ">=1.9"
-{% else %}
 [dependency-groups]
 dev = [
     "pygments>=2.10.0",
@@ -88,7 +58,6 @@ dev = [
     "myst-parser>=0.16.1",
     "deptry>=0.23.0",
 ]
-{% endif %}
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
@@ -113,11 +82,7 @@ fail_under = 20
 {% endif %}
 
 [tool.deptry.per_rule_ignores]
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-DEP001 = ["nox", "nox_poetry"]  # packages available by default
-{% else %}
 DEP001 = ["nox"]  # packages available by default
-{% endif %}
 
 [tool.mypy]
 strict = true
@@ -198,24 +163,19 @@ classmethod-decorators = ["classmethod", "validator", "root_validator", "pydanti
     "ANN201",  # type annotations don't add value for test functions
     "ANN204",  # type annotations don't add value for test functions
     "ANN205",  # type annotations don't add value for test functions
-    "ANN206",  # type annotations don't add value for test functions
-    "D100",    # docstrings are overkill for test functions
-    "D101",
-    "D102",
-    "D103",
-    "S101",    # asserts are encouraged in pytest
+"ANN206",  # type annotations don't add value for test functions
+"D100",    # docstrings are overkill for test functions
+"D101",
+"D102",
+"D103",
+"S101",    # asserts are encouraged in pytest
 ]
 
-{% if cookiecutter.dependency_manager_tool == "uv" and cookiecutter.package_name != cookiecutter.project_name.replace('-', '_') %}
+{% if cookiecutter.package_name != cookiecutter.project_name.replace('-', '_') %}
 [tool.uv.build-backend]
 module-name = "{{cookiecutter.package_name}}"
 
 {% endif %}
 [build-system]
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-{% else %}
 requires = ["uv_build>=0.8.0,<0.9"]
 build-backend = "uv_build"
-{% endif %}

@@ -2,9 +2,6 @@
 
 ## Requirements
 
-When you create a project, you are asked if you want to use [poetry] or [uv] as a
-dependency manager tool. You only need to install one of them.
-
 Install [pipx]:
 
 ```console
@@ -22,14 +19,6 @@ Install [Nox]:
 
 ```console
 pipx install nox
-```
-
-Install [Poetry] and [nox-poetry]:
-
-```console
-pipx install poetry
-pipx inject poetry poetry-plugin-export
-pipx inject nox nox-poetry
 ```
 
 Install [uv]:
@@ -64,17 +53,7 @@ git commit
 
 ### Install the environment and create a lock-file
 
-Install the virtual environment using the command:
-
-If using [poetry]:
-
-```console
-poetry update
-git add poetry.lock
-git commit
-```
-
-If using [uv]:
+Install the development environment and create the lock file:
 
 ```console
 uv sync
@@ -142,28 +121,21 @@ nox --force-python 3.11
    - Workflow name: `release.yml`
    - Environment: Leave empty.
 
-### GitHub Pages
+### Read the Docs
 
-1. Log in to [GitHub].
-2. Select Settings, Pages and set Source to "GitHub Actions" below the
-   Build and Deployment heading.
+1. Sign in to [Read the Docs] with your GitHub account.
+2. Import your repository using the *Import a Project* workflow.
+3. Select the template-generated repository and accept the defaults.
+4. Trigger the first build from the Read the Docs dashboard.
 
-[GitHub Pages] should then work out of the box. The pages are deployed to<br>
-`<github username>.github.io/<repo name>` or <br>
-`<github organization>.github.io/<repo name>`.
+Documentation will then be available at `https://<project>.readthedocs.io/`.
 
-### SonarCloud
+### Codecov
 
-1. Log in to [SonarCloud] with your GitHub account.
-2. Click the plus-sign at upper right and select _Analyze new project_,
-   select your organization and the new repo to analyze, and then click
-   the _Set Up_ button.
-3. Set _new code_ to be based on _Number of days_ and 60 days (suggestion).
-   And then click the _Create project_ button.
-4. Select _Administration_, _Analysis Method_ and choose method: _With GitHub Actions_.
-5. Follow the description to add a GitHub repository secret for the `SONAR_TOKEN`.
-6. That's it. The next time a pull request is opened or a branch or merged to main
-   on GitHub, the code will be analysed by SonarCloud.
+1. Sign in to [Codecov] with your GitHub account.
+2. Add the repository generated from this template.
+3. (Optional) create a repository secret named `CODECOV_TOKEN` if the project is private.
+4. Merge a pull request to upload coverage data automatically from GitHub Actions.
 
 ## Releasing
 
@@ -171,7 +143,7 @@ Releases are triggered by a version bump on the default branch.
 It is recommended to do this in a separate pull request:
 
 1. Switch to a branch.
-2. Bump the version using [poetry version].
+2. Bump the version using `uv version --bump patch`.
 3. Commit and push to GitHub.
 4. Open a pull request.
 5. Merge the pull request.
@@ -205,12 +177,11 @@ by applying labels to them, like this:
 <!-- table-release-drafter-sections-end -->
 
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
-[creating a project]: https://statisticsnorway.github.io/ssb-pypitemplate/guide.html#creating-a-project
+[creating a project]: https://ssb-pypitemplate.readthedocs.io/en/latest/guide.html#creating-a-project
 [cruft]: https://cruft.github.io/cruft/
 [github]: https://github.com/
 [github pages]: https://docs.github.com/en/pages
 [nox]: https://nox.thea.codes/
-[nox-poetry]: https://nox-poetry.readthedocs.io/
 [pipx]: https://pipx.pypa.io/
 [poetry]: https://python-poetry.org/
 [poetry version]: https://python-poetry.org/docs/cli/#version

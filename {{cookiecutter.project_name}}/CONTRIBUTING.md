@@ -34,9 +34,8 @@ Request features on the [Issue Tracker].
 
 You need Python 3.10+ and the following tools:
 
-- [Poetry]
+- [uv]
 - [Nox]
-- [nox-poetry]
 
 Install [pipx]:
 
@@ -45,17 +44,11 @@ python -m pip install --user pipx
 python -m pipx ensurepath
 ```
 
-Install [Poetry]:
+Install [uv] and [Nox]:
 
 ```console
-pipx install poetry
-```
-
-Install [Nox] and [nox-poetry]:
-
-```console
+pipx install uv
 pipx install nox
-pipx inject nox nox-poetry
 ```
 
 Install the pre-commit hooks
@@ -64,17 +57,17 @@ Install the pre-commit hooks
 nox --session=pre-commit -- install
 ```
 
-Install the package with development requirements:
+Synchronise the development environment:
 
 ```console
-poetry install
+uv sync
 ```
 
 You can now run an interactive Python session, or your app:
 
 ```console
-poetry run python
-poetry run {{cookiecutter.project_name}}
+uv run python
+uv run {{cookiecutter.project_name}}
 ```
 
 ## How to test the project
@@ -124,12 +117,11 @@ This will allow a chance to talk it over with the owners and validate your appro
 
 [{{cookiecutter.license.replace("-", " ").lower()}} license]: https://opensource.org/licenses/{{cookiecutter.license}}
 [source code]: https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}
-[documentation]: https://{{cookiecutter.github_organization}}.github.io/{{cookiecutter.project_name}}
+[documentation]: https://{{cookiecutter.project_name}}.readthedocs.io/
 [issue tracker]: https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}/issues
 [pipx]: https://pipx.pypa.io/
-[poetry]: https://python-poetry.org/
+[uv]: https://docs.astral.sh/uv/
 [nox]: https://nox.thea.codes/
-[nox-poetry]: https://nox-poetry.readthedocs.io/
 [pytest]: https://pytest.readthedocs.io/
 [pull request]: https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}/pulls
 

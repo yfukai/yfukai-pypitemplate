@@ -6,9 +6,9 @@
 [![Python Version][python version badge]][github page]
 [![CalVer][calver badge]][calver]
 [![License][license badge]][license]<br>
-[![Documentation][ghpages badge]][ghpages page]
+[![Documentation][rtd badge]][rtd page]
 [![Tests][github actions badge]][github actions page]
-[![Coverage][sonarcov badge]][sonar page]<br>
+[![Coverage][codecov badge]][codecov page]<br>
 [![pre-commit enabled][pre-commit badge]][pre-commit project]
 [![Black codestyle][black badge]][black project]
 [![Ruff][ruff badge]][ruff project]
@@ -21,8 +21,8 @@
 [calver badge]: https://img.shields.io/badge/calver-YYYY.MM.DD-22bfda.svg
 [calver]: https://calver.org/
 [code of conduct]: https://github.com/statisticsnorway/ssb-pypitemplate/blob/main/CODE_OF_CONDUCT.md
-[sonarcov badge]: https://sonarcloud.io/api/project_badges/measure?project=statisticsnorway_ssb-pypitemplate-instance&metric=coverage
-[sonar page]: https://sonarcloud.io/summary/overall?id=statisticsnorway_ssb-pypitemplate-instance
+[codecov badge]: https://codecov.io/gh/statisticsnorway/ssb-pypitemplate/branch/main/graph/badge.svg
+[codecov page]: https://app.codecov.io/gh/statisticsnorway/ssb-pypitemplate
 [contributor covenant badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
 [github actions badge]: https://github.com/statisticsnorway/ssb-pypitemplate/workflows/Tests/badge.svg
 [github actions page]: https://github.com/statisticsnorway/ssb-pypitemplate/actions?workflow=Tests
@@ -32,8 +32,8 @@
 [pre-commit badge]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
 [pre-commit project]: https://pre-commit.com/
 [python version badge]: https://img.shields.io/pypi/pyversions/ssb-pypitemplate-instance
-[ghpages badge]: https://github.com/statisticsnorway/ssb-pypitemplate/actions/workflows/docs.yml/badge.svg
-[ghpages page]: https://statisticsnorway.github.io/ssb-pypitemplate/
+[rtd badge]: https://readthedocs.org/projects/ssb-pypitemplate/badge/
+[rtd page]: https://ssb-pypitemplate.readthedocs.io/
 [status badge]: https://badgen.net/badge/status/stable/4bc51d
 
 <!-- badges-end -->
@@ -45,7 +45,7 @@
 This repo is a fork of [cookiecutter-hypermodern-python], and adjusted for use
 in [Statistics Norway].
 
-✨📚✨ [Read the full documentation][ghpages page]
+✨📚✨ [Read the full documentation][rtd page]
 
 - [Quickstart]
 - [User Guide]
@@ -54,8 +54,8 @@ in [Statistics Norway].
 [hypermodern python]: https://medium.com/@cjolowicz/hypermodern-python-d44485d9d769
 [cookiecutter-hypermodern-python]: https://github.com/cjolowicz/cookiecutter-hypermodern-python.git
 [statistics norway]: https://www.ssb.no/en
-[quickstart]: https://statisticsnorway.github.io/ssb-pypitemplate/quickstart.html
-[user guide]: https://statisticsnorway.github.io/ssb-pypitemplate/guide.html
+[quickstart]: https://ssb-pypitemplate.readthedocs.io/en/latest/quickstart.html
+[user guide]: https://ssb-pypitemplate.readthedocs.io/en/latest/guide.html
 
 ## Usage
 
@@ -86,11 +86,11 @@ cruft update
 
 <!-- features-begin -->
 
-- Packaging and dependency management with [Poetry]
+- Packaging and dependency management with [uv]
 - Test automation with [Nox]
 - Linting with [pre-commit] and [ruff]
 - Continuous integration with [GitHub Actions]
-- Documentation with [Sphinx], [MyST], and [GitHub Pages] using the [furo] theme
+- Documentation with [Sphinx], [MyST], and [Read the Docs] using the [furo] theme
 - Automated uploads to [PyPI] and [TestPyPI]
 - Automated release notes with [Release Drafter]
 - Automated dependency updates with [Dependabot]
@@ -98,7 +98,7 @@ cruft update
 - Import sorting with [ruff]
 - Testing with [pytest]
 - Code coverage with [Coverage.py]
-- Coverage reporting with [SonarCloud]
+- Coverage reporting with [Codecov]
 - Command-line interface with [Click]
 - Static type-checking with [mypy]
 - Runtime type-checking with [Typeguard]
@@ -120,20 +120,20 @@ The template supports Python 3.10, 3.10 and 3.12.
 [furo]: https://pradyunsg.me/furo/
 [github actions]: https://github.com/features/actions
 [github labeler]: https://github.com/marketplace/actions/github-labeler
-[github pages]: https://pages.github.com/
+[read the docs]: https://readthedocs.org/
 [isort]: https://pycqa.github.io/isort/
 [mypy]: https://mypy-lang.org/
 [myst]: https://myst-parser.readthedocs.io/
 [napoleon]: https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html
 [nox]: https://nox.thea.codes/
-[poetry]: https://python-poetry.org/
+[uv]: https://docs.astral.sh/uv/
 [pre-commit]: https://pre-commit.com/
 [prettier]: https://prettier.io/
 [pypi]: https://pypi.org/
 [pytest]: https://docs.pytest.org/en/latest/
 [release drafter]: https://github.com/release-drafter/release-drafter
 [ruff]: https://beta.ruff.rs
-[sonarcloud]: https://www.sonarsource.com/products/sonarcloud/
+[codecov]: https://about.codecov.io/
 [sphinx]: http://www.sphinx-doc.org/
 [sphinx-click]: https://sphinx-click.readthedocs.io/
 [testpypi]: https://test.pypi.org/

@@ -8,9 +8,9 @@ to the hypermodern python cookiecutter are described on this page.
 - Adopt template for use in Statistics Norway:
   - Template variables updated to support github_organization and copyright_owner.
   - Replace all references to cjolowicz-repos with ssb-pypitemplate.
-- Replace use of [Read the Docs] with [GitHub Pages]. _One site less to register to._
-- Add [SonarCloud] as a code quality analysis tool, including code coverage.
-- Remove use of [CodeCov]. _One site less to register to and covered by SonarCloud._
+- Publish documentation with [Read the Docs] instead of GitHub Pages.
+- Use [Codecov] for coverage reporting.
+- Adopt [uv] for dependency management and packaging in place of Poetry.
 - Support running `pytest` directly from the command line, without using `nox`.
 - Replace flake8 and several other tools with [ruff] for linting.
 - Add library function example.

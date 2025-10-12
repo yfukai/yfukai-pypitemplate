@@ -21,7 +21,7 @@ def prepare_release(session: Session) -> None:
         *[f"--label={label}" for label in labels],
         *session.posargs,
     ]
-    session.install("click", "github3.py")
+    session.install("click", "github3.py", "pyjwt", "requests")
     session.run("python", "tools/prepare-github-release.py", *args, external=True)
 
 
@@ -29,7 +29,7 @@ def prepare_release(session: Session) -> None:
 def publish_release(session: Session) -> None:
     """Publish a GitHub release."""
     args = [f"--owner={owner}", f"--repository={repository}", *session.posargs]
-    session.install("click", "github3.py")
+    session.install("click", "github3.py", "pyjwt", "requests")
     session.run("python", "tools/publish-github-release.py", *args, external=True)
 
 

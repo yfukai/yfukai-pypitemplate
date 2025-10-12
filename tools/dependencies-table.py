@@ -10,6 +10,7 @@ JINJA_PATTERN2 = re.compile(r"{{[^{]*}}")
 LINE_FORMAT = "   {name:{width}} {description}"
 CANONICALIZE_PATTERN = re.compile(r"[-_.]+")
 DESCRIPTION_PATTERN = re.compile(r"\. .*")
+REQUIREMENT_PATTERN = re.compile(r"^[A-Za-z0-9_.-]+")
 
 
 def canonicalize_name(name: str) -> str:
@@ -27,6 +28,16 @@ def format_dependency(dependency: str) -> str:
     return "coverage__" if dependency == "coverage" else f"{dependency}_"
 
 
+def extract_requirement_name(requirement: str) -> str:
+    """Extract the package name from a dependency specification string."""
+    requirement = requirement.strip().strip('"').strip("'")
+    requirement = requirement.split("[", 1)[0]
+    match = REQUIREMENT_PATTERN.match(requirement)
+    if match is None:  # pragma: no cover - defensive
+        raise ValueError(f"cannot parse requirement name from '{requirement}'")
+    return match.group(0)
+
+
 def main() -> None:
     """Print restructuredText table of dependencies."""
     path = PROJECT / "pyproject.toml"
@@ -36,13 +47,15 @@ def main() -> None:
     data = tomli.loads(text)
 
     dependencies = {
-        canonicalize_name(dependency)
-        for section in ["dependencies"]  # TODO Handle both dev and normal dependencies
-        for dependency in data["tool"]["poetry"]["group"]["dev"][section].keys()
-        if dependency != "python"
+        canonicalize_name(extract_requirement_name(requirement))
+        for requirement in data.get("dependency-groups", {}).get("dev", [])
     }
 
-    path = PROJECT / "poetry.lock"
+    path = PROJECT / "uv.lock"
+    if not path.exists():  # pragma: no cover - convenience for maintainers
+        raise FileNotFoundError(
+            "uv.lock not found. Run 'uv lock' in the project directory first."
+        )
     text = path.read_text()
     data = tomli.loads(text)
 

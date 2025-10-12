@@ -39,7 +39,7 @@ a project scaffolding tool built on top of the [Jinja] template engine.
 
 The project template is centered around the following tools:
 
-- [Poetry] for packaging and dependency management
+- [uv] for packaging and dependency management
 - [Nox] for automation of checks and other development tasks
 - [GitHub Actions] for continuous integration and delivery
 
@@ -171,17 +171,11 @@ If you decide to skip `pipx` installation,
 use [pip install] with the `--user` option instead.
 :::
 
-You need four tools to use this template:
+You need three tools to use this template:
 
 - [Cruft] to create projects from the template,
-- [Poetry] or [uv] to manage packaging and dependencies
-- [Nox] to automate checks and other tasks
-- [nox-poetry] for using Poetry in Nox sessions
-
-When you create a project you are asked if you want to use `poetry` or `uv` as
-a dependency manager tool. You only need one of these. There is no need to install
-`uv` if you only use `poetry`, and no need to install `poetry` and `nox-poetry`
-if you only use `uv`.
+- [uv] to manage packaging and dependencies
+- [Nox] to automate checks and other development tasks
 
 Install [Cruft] using pipx:
 
@@ -189,18 +183,16 @@ Install [Cruft] using pipx:
 pipx install cruft[pyproject]
 ```
 
-Install [Poetry] or [uv] using pipx:
+Install [uv] using pipx:
 
 ```console
-pipx install poetry  # If selecting poetry as a dependency manager
-pipx install uv      # If selecting uv as a dependency manager
+pipx install uv
 ```
 
-Install [Nox] and [nox-poetry] using pipx:
+Install [Nox] using pipx:
 
 ```console
 pipx install nox
-pipx inject nox nox-poetry  # Only if you use poetry as a dependency manager tool
 ```
 
 Remember to upgrade these tools regularly:
@@ -208,7 +200,6 @@ Remember to upgrade these tools regularly:
 ```console
 pipx upgrade cruft
 pipx upgrade --include-injected nox
-pipx upgrade poetry
 pipx upgrade uv
 ```
 
@@ -279,8 +270,8 @@ Here is a complete list of the project variables defined by this template:
   - Requirements for code quality level
   - `Medium`
 - - `dependency_manager_tool`
-  - Select between `poetry` and `uv`
-  - `poetry`
+  - Select between `uv` and `uv`
+  - `uv`
 - - `department_number`
   - Statistics Norway only: Department/"seksjon" number responsible for maintaining the library
   - `703`
@@ -492,18 +483,18 @@ and links each file to a section with more details.
 - - `noxfile.py`
   - Configuration for [Nox](using-nox)
 - - `pyproject.toml`
-  - Configuration for [Poetry](using-poetry),
+  - Configuration for [uv](using-uv),
     [Coverage.py](the-coverage-session),
     [isort](the-isort-hook),
     and [mypy](type-checking-with-mypy)
-- - `sonar-project.properties`
-  - Configuration for [SonarCloud]
+- - `codecov.yml`
+  - Configuration for [Codecov]
 
 :::
 
 The `pyproject.toml` file is described in more detail [below](the-pyproject-toml-file).
 
-[Dependencies](managing-dependencies) are managed by [Poetry]
+[Dependencies](managing-dependencies) are managed by [uv]
 and declared in the [pyproject.toml](the-pyproject-toml-file) file.
 The table below lists some additional files with pinned dependencies.
 Follow the links for more details on these.
@@ -511,8 +502,8 @@ Follow the links for more details on these.
 :::{list-table} Dependency files
 :widths: auto
 
-- - `poetry.lock`
-  - [Poetry lock file](the-lock-file)
+- - `uv.lock`
+  - [uv lock file](the-lock-file)
 - - `.github/workflows/constraints.txt`
   - Constraints file for [GitHub Actions workflows](workflow-constraints)
 
@@ -552,7 +543,7 @@ src
   This allows you to invoke the command-line interface using only the project name:
 
   ```console
-  poetry run <project>  # during development
+  uv run <project>  # during development
   <project>             # after installation
   ```
 
@@ -701,37 +692,35 @@ see [The docs session](the-docs-session).
 The configuration file for the Python package is located
 in the root directory of the project,
 and named `pyproject.toml`.
-It uses the [TOML] configuration file format,
-and contains two sections---_tables_ in TOML parlance---,
-specified in [PEP 517][pep 517] and [518][pep 518]:
+It uses the [TOML] configuration file format
+and follows [PEP 517][pep 517] and [518][pep 518].
+This template relies on [uv] for packaging and dependency management.
 
-- The `build-system` table
-  declares the requirements and the entry point
-  used to build a distribution package for the project.
-  This template uses [Poetry] as the build system.
-- The `tool` table contains sub-tables
-  where tools can store configuration under their [PyPI] name.
+The file is organised into the following sections:
+
+- The `[build-system]` table declares the requirements and entry point
+  used to build distribution artifacts.
+  Generated projects use the `uv-build` backend provided by uv.
+- The `[project]` table contains package metadata
+  such as the name, version, authors, and core dependencies.
+- The `[dependency-groups]` table defines optional dependency groups.
+  The template uses the `dev` group for tools needed during development.
+- Tool-specific configuration is stored in nested `[tool.*]` tables.
+  For example, the template configures [Coverage.py], [ruff], and [mypy] here.
 
 :::{list-table} Tool configurations in pyproject.toml
 :widths: auto
 
 - - `tool.coverage`
   - Configuration for [Coverage.py]
-- - `tool.isort`
-  - Configuration for [isort]
 - - `tool.mypy`
   - Configuration for [mypy]
-- - `tool.poetry`
-  - Configuration for [Poetry]
+- - `tool.ruff`
+  - Configuration for [ruff]
+- - `tool.uv`
+  - Additional settings for uv's build backend
 
 :::
-
-The `tool.poetry` table
-contains the metadata for your package,
-such as its name, version, and authors,
-as well as the list of dependencies for the package.
-Please refer to the [Poetry documentation][pyproject.toml]
-for a detailed description of each configuration key.
 
 (version-constraints)=
 
@@ -740,113 +729,62 @@ for a detailed description of each configuration key.
 :::{admonition} TL;DR
 This project template omits upper bounds from all version constraints.
 
-You are encouraged to manually remove upper bounds
-for dependencies you add to your project using Poetry:
-
-1. Replace `^1.2.3` with `>=1.2.3` in `pyproject.toml`
-2. Run `poetry lock --no-update` to update `poetry.lock`
-
+After adding a dependency, replace constraints like `^1.2.3`
+with `>=1.2.3` in `pyproject.toml`
+and refresh the lock file with `uv lock --frozen`.
 :::
 
 [Version constraints][versions and constraints] express
 which versions of dependencies are compatible with your project.
-In the case of core dependencies,
-they are also a part of distribution packages,
-and as such affect end-users of your package.
+They matter for both runtime dependencies
+and for tools only used during development.
 
 :::{note}
-Dependencies are Python packages used by your project,
-and they come in two types:
+Dependencies fall into two categories:
 
-- _Core dependencies_ are required by users running your code,
-  and typically consist of third-party libraries imported by your package.
-  When your package is distributed,
-  the [package metadata] includes these dependencies,
-  allowing tools like [pip] to automatically install them alongside your package.
-- _Development dependencies_ are only required by developers working on your code.
-  Examples are applications used to run tests,
-  check code for style and correctness,
-  or to build documentation.
-  These dependencies are not a part of distribution packages,
-  because users do not require them to run your code.
-
+- _Core dependencies_ are required by the package at runtime
+  and are listed in the `[project]` table.
+- _Development dependencies_ are only used while working on the project
+  and are grouped under `[dependency-groups.dev]`.
+  They are not included when the package is built for distribution.
 :::
 
-For every dependency added to your project,
-Poetry writes a version constraint to `pyproject.toml`.
-Dependencies are kept in two TOML tables:
+By default, dependency managers often add both lower and upper bounds to version
+constraints.
+Upper bounds provide a safety net when depending on projects that follow
+[Semantic Versioning], but they also introduce friction:
 
-- `tool.poetry.dependencies`---for core dependencies
-- `tool.poetry.group.dev.dependencies`---for development dependencies
+1. Version caps do not play well with Python's flat dependency management.
+2. Version caps lead to frequent merge conflicts in lock files.
 
-By default, version constraints added by Poetry have both a lower and an upper bound:
+For more background, see:
 
-- The lower bound requires users of your package to have at least the version
-  that was current when you added the dependency.
-- The upper bound allows users to upgrade to newer releases of dependencies,
-  as long as the version number does not indicate a breaking change.
-
-According to the [Semantic Versioning] standard,
-only major releases may contain breaking changes,
-once a project has reached version 1.0.0.
-A major release is one that increments the major version
-(the first component of the version identifier).
-An example for such a version constraint would be `^1.2.3`,
-which is a Poetry-specific shorthand equivalent to `>= 1.2.3, < 2`.
-
-This project template omits upper bounds from all version constraints,
-in a conscious departure from Poetry's defaults.
-There are two separate reasons for removing version caps,
-one principled, the other pragmatic:
-
-1. Version caps lead to problems in the Python ecosystem due to its flat dependency management.
-2. Version caps lead to frequent merge conflicts between dependency updates.
-
-The first point is treated in detail in the following articles:
-
-- [Should You Use Upper Bound Version Constraints?][schreiner constraints] and [Poetry Versions][schreiner poetry] by Henry Schreiner
+- [Should You Use Upper Bound Version Constraints?][schreiner constraints] by Henry Schreiner
 - [Semantic Versioning Will Not Save You][schlawack semantic] by Hynek Schlawack
 - [Version numbers: how to use them?][gabor version] by Bernát Gábor
 - [Why I don't like SemVer anymore][cannon semver] by Brett Cannon
 
-The second point is ultimately due to the fact that
-every updated version constraint changes a hashsum in the `poetry.lock` file.
-This means that PRs updating version constraints will _always_ conflict with each other.
-
-:::{note}
-The problem with merge conflicts is greatly exacerbated by a [Dependabot issue][dependabot issue 4435]:
-Dependabot updates version constraints in `pyproject.toml`
-even when the version constraint already covered the new version.
-This can be avoided using a configuration setting
-where only the lock file is ever updated, not the version constraints.
-Omitting version caps makes the lockfile-only strategy a viable alternative.
-:::
-
-Poetry will still add `^1.2.3`-style version constraints whenever you add a dependency.
-You should edit the version constraint in `pyproject.toml`,
-replacing `^1.2.3` with `>=1.2.3` to remove the upper bound.
-Then update the lock file by invoking `poetry lock --no-update`.
+To avoid the pitfalls mentioned above,
+the template sticks to lower-bound-only constraints such as `>=1.2.3`.
+When adding a dependency with uv, adjust the generated constraint in `pyproject.toml`
+and update the lock file with `uv lock --frozen` to keep the recorded versions intact.
 
 (the-lock-file)=
 
 ### The lock file
 
-Poetry records the exact version of each direct and indirect dependency
-in its lock file, named `poetry.lock` and located in the root directory of the project.
-The lock file does not affect users of the package,
-because its contents are not included in distribution packages.
+uv records the exact versions of all direct and transitive dependencies
+in `uv.lock`, located in the project root.
+The lock file is not part of built distributions,
+but it plays an important role in development:
 
-The lock file is useful for a number of reasons:
+- It ensures that local checks run with the same dependency set as CI,
+  making builds deterministic.
+- It keeps collaborators on the same page about dependency versions.
+- It helps maintain [dev-prod parity] when deploying applications.
 
-- It ensures that local checks run in the same environment as on the CI server,
-  making the CI predictable and deterministic.
-- When collaborating with other developers,
-  it allows everybody to use the same development environment.
-- When deploying an application, the lock file helps you
-  keep production and development environments as similar as possible
-  ([dev-prod parity]).
-
-For these reasons, the lock file should be kept under source control.
+Commit the lock file to source control
+to keep workflows repeatable.
 
 ### Dependencies
 
@@ -897,218 +835,73 @@ See the table below for an overview of the dependencies of generated projects:
 
 :::
 
-(using-poetry)=
+(using-uv)=
 
-## Using Poetry
+## Using uv
 
-[Poetry] manages packaging and dependencies for Python projects.
+[uv] manages packaging and dependencies for generated projects.
+The commands below assume you run them from the project root.
 
 (managing-dependencies)=
 
 ### Managing dependencies
 
-Use the command [poetry show] to
-see the full list of direct and indirect dependencies of your package:
+List the full dependency graph of your project:
 
 ```console
-poetry show
+uv tree
 ```
 
-Use the command [poetry add] to add a dependency for your package:
+Add new dependencies:
 
 ```console
-poetry add foobar         # for core dependencies
-poetry add -G dev foobar  # for development dependencies
+uv add foobar            # Core dependency
+uv add --group dev foobar  # Development dependency
 ```
 
 :::{important}
-It is recommended to remove the upper bound from the version constraint added by Poetry:
-
-1. Edit `pyproject.toml` to replace `^1.2.3` with `>=1.2.3` in the dependency entry
-2. Update `poetry.lock` using the command `poetry lock --no-update`
-
-See [Version constraints](version-constraints) for more details.
-:::
-
-Use the command [poetry remove] to remove a dependency from your package:
+After adding a dependency, edit the generated constraint in `pyproject.toml`
+so that it uses a lower bound (`>=1.2.3`) instead of a caret range.
+Refresh the lock file without upgrading other dependencies:
 
 ```console
-poetry remove foobar
+uv lock --frozen
 ```
 
-Use the command [poetry update] to upgrade the dependency to a new release:
+See [Version constraints](version-constraints) for details.
+:::
+
+Remove or upgrade dependencies:
 
 ```console
-poetry update foobar
+uv remove foobar
+uv lock --upgrade foobar   # Upgrade `foobar` to the latest compatible release
 ```
 
 :::{note}
 Dependencies in the {{ SPT }} are managed by [Dependabot](dependabot-integration).
 When newer versions of dependencies become available,
-Dependabot updates the `poetry.lock` file and submits a pull request.
+Dependabot updates `uv.lock` and opens a pull request.
 :::
 
-### Installing the package for development
+### Working with environments
 
-Poetry manages a virtual environment for your project,
-which contains your package, its core dependencies, and the development dependencies.
-All dependencies are kept at the versions specified by the lock file.
-
-:::{note}
-A [virtual environment] gives your project
-an isolated runtime environment,
-consisting of a specific Python version and
-an independent set of installed Python packages.
-This way, the dependencies of your current project
-do not interfere with the system-wide Python installation,
-or other projects you're working on.
-:::
-
-You can install your package and its dependencies
-into Poetry's virtual environment
-using the command [poetry install].
+Synchronise the local virtual environment with the lock file:
 
 ```console
-poetry install
+uv sync
+uv sync --group dev  # Include development dependencies
 ```
 
-This command performs a so-called [editable install] of your package:
-Instead of building and installing a distribution package,
-it creates a special `.egg-link` file that links to your local source code.
-This means that code edits are directly visible in the environment
-without the need to reinstall your package.
-
-Installing your package implicitly creates the virtual environment
-if it does not exist yet,
-using the currently active Python interpreter,
-or the first one found
-which satisfies the Python versions supported by your project.
-
-### Managing environments
-
-You can create environments explicitly
-with the [poetry env] command,
-specifying the desired Python version.
-This allows you to create an environment
-for every Python version supported by your project,
-and easily switch between them:
+Run commands inside the managed environment:
 
 ```console
-poetry env use 3.10
-poetry env use 3.11
-poetry env use 3.12
+uv run python -m pip list
+uv run pytest
 ```
 
-Only one Poetry environment can be active at any time.
-Note that `3.12` comes last,
-to ensure that the current Python release is the active environment.
-Install your package with `poetry install` into each environment after creating it.
-
-Use the command `poetry env list` to list the available environments:
-
-```console
-poetry env list
-```
-
-Use the command `poetry env remove` to remove an environment:
-
-```console
-poetry env remove <version>
-```
-
-Use the command `poetry env info` to show information about the active environment:
-
-```console
-poetry env info
-```
-
-### Running commands
-
-You can run an interactive Python session inside the active environment
-using the command [poetry run]:
-
-```console
-poetry run python
-```
-
-The same command allows you to invoke the command-line interface of your project:
-
-```console
-poetry run <project>
-```
-
-You can also run developer tools, such as [pytest]:
-
-```console
-poetry run pytest
-```
-
-While it is handy to have developer tools available in the Poetry environment,
-it is usually recommended to run these using Nox,
-as described in the section [Using Nox](using-nox).
-
-### Building and distributing the package
-
-:::{note}
-With the {{ SPT }},
-building and distributing your package
-is taken care of by [GitHub Actions].
-For more information,
-see the section [The Release workflow](the-release-workflow).
-:::
-
-This section gives a short overview of
-how you can build and distribute your package
-from the command line,
-using the following Poetry commands:
-
-```console
-poetry build
-poetry publish
-```
-
-Building the package is done with the [python build] command,
-which generates _distribution packages_
-in the `dist` directory of your project.
-These are compressed archives that
-an end-user can download and install on their system.
-They come in two flavours:
-source (or _sdist_) archives, and
-binary packages in the [wheel] format.
-
-Publishing the package is done with the [python publish] command,
-which uploads the distribution packages
-to your account on [PyPI],
-the official Python package registry.
-
-### Installing the package
-
-Once your package is on PyPI,
-others can install it with [pip], [pipx], or Poetry:
-
-```console
-pip install <project>
-pipx install <project>
-poetry add <project>
-```
-
-While [pip] is the workhorse of the Python packaging ecosystem,
-you should use higher-level tools to install your package:
-
-- If the package is an application, install it with [pipx].
-- If the package is a library, install it with [poetry add] in other projects.
-
-The primary benefit of these installation methods is that
-your package is installed into an isolated environment,
-without polluting the system environment,
-or the environments of other applications.
-This way,
-applications can use specific versions of their direct and indirect dependencies,
-without getting in each other's way.
-
-If the other project is not managed by Poetry,
-use whatever package manager the other project uses.
-You can always install your project into a virtual environment with plain [pip].
+These commands ensure that tools operate against the dependency versions
+captured in `uv.lock`.
 
 (using-nox)=
 
@@ -1124,7 +917,7 @@ named `noxfile.py` and located in the project directory.
 They consist of a virtual environment
 and a set of commands to run in that environment.
 
-While Poetry environments allow you to
+While uv-managed environments allow you to
 interact with your package during development,
 Nox environments are used to run developer tools
 in a reliable and repeatable way across Python versions.
@@ -1320,24 +1113,6 @@ so they run automatically on every commit you make:
 nox --session=pre-commit -- install
 ```
 
-(the-safety-session)=
-
-### The safety session
-
-[Safety] checks the dependencies of your project for known security vulnerabilities,
-using a curated database of insecure Python packages.
-The {{ SPT }} uses the [poetry export] command
-to convert Poetry's lock file to a [requirements file],
-for consumption by Safety.
-
-Run [Safety] using the `safety` session:
-
-```console
-nox --session=safety
-```
-
-This session always runs with the current stable release of Python.
-
 (the-tests-session)=
 
 ### The tests session
@@ -1354,7 +1129,7 @@ nox --session=tests
 The tests session runs the test suite against the installed code.
 More specifically, the session builds a wheel from your project and
 installs it into the Nox environment,
-with dependencies pinned as specified by Poetry's lock file.
+with dependencies pinned as specified by uv.lock.
 
 You can also run the test suite with a specific Python version.
 For example, the following command runs the test suite
@@ -1418,9 +1193,9 @@ and specifies the target coverage percentage.
 Coverage is measured for the package as well as [the test suite itself][batchelder include].
 
 During continuous integration,
-coverage data is uploaded to the [SonarCloud] reporting service.
+coverage data is uploaded to the [Codecov] reporting service.
 For details, see the sections about
-[SonarCloud](sonarcloud-integration) and
+[Codecov](codecov-integration) and
 [The Tests workflow](the-tests-workflow).
 
 (the-typeguard-session)=
@@ -1556,18 +1331,18 @@ nox --session=pre-commit -- autoupdate
 
 :::{note}
 This section provides some background information about
-how this project template integrates pre-commit with Poetry and Nox.
+how this project template integrates pre-commit with uv and Nox.
 You can safely skip this section.
 :::
 
 Python-language hooks in the {{ SPT }} are not managed by pre-commit.
-Instead, they are tracked as development dependencies in Poetry,
+Instead, they are tracked as development dependencies in uv,
 and installed into the Nox session alongside pre-commit itself.
-As development dependencies, they are also present in the Poetry environment.
+As development dependencies, they are also present in the uv-managed environment.
 
 This approach has some advantages:
 
-- All project dependencies are managed by Poetry.
+- All project dependencies are managed by uv.
 - Hooks receive automatic upgrades from Dependabot.
 - Nox can serve as a single entry point for all checks.
 - Additional hook dependencies can be upgraded by a dependency manager.
@@ -1575,7 +1350,7 @@ This approach has some advantages:
   By contrast, `pre-commit autoupdate` does not include additional dependencies.
 - Dependencies of dependencies (_subdependencies_) can be locked automatically,
   making checks more repeatable and deterministic.
-- Linters and formatters are available in the Poetry environment,
+- Linters and formatters are available in the uv-managed environment,
   which is useful for editor integration.
 
 There are also some drawbacks to this technique:
@@ -1592,7 +1367,7 @@ There are also some drawbacks to this technique:
 You can always opt out of this integration method,
 by removing the `repo: local` section from the configuration file,
 and adding the official pre-commit hooks instead.
-Don't forget to remove the hooks from Poetry's dependencies and from the Nox session.
+Don't forget to remove the hooks from uv's dependency groups and from the Nox session.
 
 :::{note}
 Python-language hooks in the {{ SPT }} are defined as [system hooks][pre-commit system hooks].
@@ -1624,23 +1399,23 @@ Add the following section to your `pre-commit-config.yaml`, under `repos`:
 ```
 
 While this technique also works for Python-language hooks,
-it is recommended to integrate Python hooks with Nox and Poetry,
+it is recommended to integrate Python hooks with Nox and uv,
 as shown in the next section.
 
 ### Adding a Python-language hook
 
 Adding a Python-language hook to your project takes three steps:
 
-- Add the hook as a Poetry development dependency.
+- Add the hook as a uv development dependency.
 - Install the hook in the Nox session for pre-commit.
 - Add the hook to `pre-commit-config.yaml`.
 
 For example, consider a linter named `awesome-linter`.
 
-First, use Poetry to add the linter to your development dependencies:
+First, use uv to add the linter to your development dependencies:
 
 ```console
-poetry add -G dev awesome-linter
+uv add --group dev awesome-linter
 ```
 
 Next, update `noxfile.py` to add the linter to the pre-commit session:
@@ -1696,8 +1471,8 @@ before committing again.
 
 If you want to run linters or formatters on modified files,
 and you do not want to stage the modifications just yet,
-you can also invoke the tools via Poetry instead.
-For example, use `poetry run flake8 <file>` to lint a modified file with Flake8.
+you can also invoke the tools via uv instead.
+For example, use `uv run flake8 <file>` to lint a modified file with Flake8.
 
 ### Overview of pre-commit hooks
 
@@ -2009,7 +1784,7 @@ The following options are enabled for strictness and enhanced output:
 
 [deptry] is a command line tool to check for issues with dependencies in a Python project, such as unused or missing dependencies.
 
-Usage: `poetry run deptry .` from the root directory.
+Usage: `uv run deptry .` from the root directory.
 
 (external-services)=
 
@@ -2053,34 +1828,21 @@ Follow these steps to set up TestPyPI for your repository:
 TestPyPI is integrated with your repository
 via the [Release workflow](the-release-workflow).
 
-(sonarcloud-integration)=
+(codecov-integration)=
 
-### SonarCloud
+### Codecov
 
-[SonarCloud] is a reporting service for code quality and code coverage.
+[Codecov] is a hosted coverage reporting service.
 
-Follow these steps to set up SonarCloud for your repository:
+Follow these steps to set up Codecov for your repository:
 
-1. Sign up at [SonarClod] with your GitHub account.
-2. If you don't have an organization in SonarCloud yet, create one.
-   1. Click the plus-sign at upper right and select _Create new organization_.
-   2. If you have a GitHub organization, import it. Otherwise, create one manually.
-   3. **Important**: Set the _key_-field equal to your GitHub username.
-      The _name_-field can be whatever you like.
-3. Click the plus-sign at upper right and select _Analyze new project_,
-   select your organization and the new repo to analyze, and then click
-   the _Set Up_ button.
-4. Set _new code_ to be based on _Number of days_ and 60 days (suggestion).
-   And then click the _Create project_ button.
-5. Select _Administration_, _Analysis Method_ and choose method: _With GitHub Actions_.
-6. Follow the description to add a GitHub repository secret for the `SONAR_TOKEN`.
-7. That's it. The next time a pull request is opened or a branch or merged to main
-   on GitHub, the code will be analysed by SonarCloud.
+1. Sign in to [Codecov] with your GitHub account.
+2. Add your repository from the Codecov dashboard. Public repositories do not need a token.
+3. For private repositories, create a repository token and add it as a `CODECOV_TOKEN` secret on GitHub.
+4. Merge a pull request to trigger the GitHub Actions workflow and upload the first coverage report.
 
-The configuration is included in the repository,
-in the file [sonar-project.properties][sonarcloud configuration].
-
-The [Tests workflow](the-tests-workflow) uploads the coverage data.
+The [Tests workflow](the-tests-workflow) uploads the coverage data using
+the [Codecov GitHub Action][codecov/codecov-action].
 
 (dependabot-integration)=
 
@@ -2102,7 +1864,7 @@ It manages the following dependencies:
   - Managed files
   - See also
 - - Python
-  - `poetry.lock`
+  - `uv.lock`
   - [Managing dependencies](managing-dependencies)
 - - Python
   - `docs/requirements.txt`
@@ -2137,13 +1899,13 @@ Your documentation now has a public URL like this:
 The configuration for Read the Docs is included in the repository,
 in the file [.readthedocs.yml].
 The {{ SPT }} configures Read the Docs
-to build and install the package with Poetry,
+to build and install the package with uv,
 using a so-called [PEP 517][pep 517]-build.
 
 Build dependencies for the documentation
 are installed using a [requirements file] located at `docs/requirements.txt`.
 Read the Docs currently does not support
-installing development dependencies using Poetry's lock file.
+installing development dependencies using uv.lock.
 For the sake of brevity and maintainability,
 only direct dependencies are included.
 
@@ -2151,7 +1913,7 @@ only direct dependencies are included.
 The requirements file is managed by [Dependabot](dependabot-integration).
 When newer versions of the build dependencies become available,
 Dependabot updates the requirements file and submits a pull request.
-When adding or removing Sphinx extensions using Poetry,
+When adding or removing Sphinx extensions with uv,
 don't forget to update the requirements file as well.
 :::
 
@@ -2224,8 +1986,8 @@ Workflows use the following GitHub Actions:
   - Set up workflows with a specific Python version
 - - [actions/upload-artifact]
   - Upload artifacts from workflows
-- - [sonarsource/sonarcloud-github-action]
-  - Upload coverage to SonarCloud
+- - [codecov/codecov-action]
+  - Upload coverage reports to Codecov
 - - [crazy-max/ghaction-github-labeler]
   - Manage labels on GitHub as code
 - - [pypa/gh-action-pypi-publish]
@@ -2251,7 +2013,7 @@ GitHub Actions workflows install the following tools:
 
 - [pip]
 - [virtualenv]
-- [Poetry]
+- [uv]
 - [Nox]
 
 These dependencies are pinned using a [constraints file]
@@ -2318,11 +2080,11 @@ The workflow uploads the generated documentation as a [workflow artifact][github
 Building the documentation only serves the purpose of catching issues in pull requests.
 Builds on [Read the Docs] happen independently.
 
-The workflow also uploads coverage data to [SonarCloud] after running tests.
+The workflow also uploads coverage data to [Codecov] after running tests.
 It generates a coverage report in [Cobertura] XML format,
 using the [coverage session](the-coverage-session).
 The report is uploaded
-using the official [SonarSource GitHub Action][sonarsource/sonarcloud-github-action].
+using the official [Codecov GitHub Action][codecov/codecov-action].
 
 The Tests workflow uses the following GitHub Actions:
 
@@ -2331,7 +2093,7 @@ The Tests workflow uses the following GitHub Actions:
 - [actions/download-artifact] to download the coverage data of each tests session
 - [actions/cache] for caching pre-commit environments
 - [actions/upload-artifact] to upload the generated documentation and the coverage data of each tests session
-- [sonarsource/sonarcloud-github-action] for uploading to [SonarCloud]
+- [codecov/codecov-action] for uploading to [Codecov]
 
 The Tests workflow is defined in `.github/workflows/tests.yml`.
 
@@ -2432,22 +2194,22 @@ nox -r
 
 ### How to run your code
 
-First, install the project and its dependencies to the Poetry environment:
+First, install the project and its dependencies:
 
 ```console
-poetry install
+uv sync
 ```
 
 Run an interactive session in the environment:
 
 ```console
-poetry run python
+uv run python
 ```
 
 Invoke the command-line interface of your package:
 
 ```console
-poetry run <project>
+uv run <project>
 ```
 
 ### How to make code changes
@@ -2542,7 +2304,7 @@ Releases are triggered by a version bump on the default branch.
 It is recommended to do this in a separate pull request:
 
 1. Switch to a branch.
-2. Bump the version using [poetry version].
+2. Bump the version using [uv version].
 3. Commit and push to GitHub.
 4. Open a pull request.
 5. Merge the pull request.
@@ -2551,7 +2313,7 @@ The individual steps for bumping the version are:
 
 ```console
 git switch --create release main
-poetry version <version>
+uv version <version>
 git commit --message="<project> <version>" pyproject.toml
 git push origin release
 ```
@@ -2678,7 +2440,7 @@ You can also read the articles on [this blog][hypermodern python blog].
 [mypy]: https://mypy-lang.org/
 [myst]: https://myst-parser.readthedocs.io/
 [napoleon]: https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html
-[nox-poetry]: https://nox-poetry.readthedocs.io/
+[nox]: https://nox-uv.readthedocs.io/
 [nox]: https://nox.thea.codes/
 [package metadata]: https://packaging.python.org/en/latest/specifications/core-metadata/
 [pep 257]: https://peps.python.org/pep-0257/
@@ -2692,16 +2454,16 @@ You can also read the articles on [this blog][hypermodern python blog].
 [pip install]: https://pip.pypa.io/en/stable/reference/pip_install/
 [pip]: https://pip.pypa.io/
 [pipx]: https://pipxproject.github.io/pipx/
-[poetry add]: https://python-poetry.org/docs/cli/#add
-[poetry env]: https://python-poetry.org/docs/managing-environments/
-[poetry export]: https://python-poetry.org/docs/cli/#export
-[poetry install]: https://python-poetry.org/docs/cli/#install
-[poetry remove]: https://python-poetry.org/docs/cli/#remove
-[poetry run]: https://python-poetry.org/docs/cli/#run
-[poetry show]: https://python-poetry.org/docs/cli/#show
-[poetry update]: https://python-poetry.org/docs/cli/#update
-[poetry version]: https://python-poetry.org/docs/cli/#version
-[poetry]: https://python-poetry.org/
+[uv add]: https://python-uv.org/docs/cli/#add
+[uv env]: https://python-uv.org/docs/managing-environments/
+[uv export]: https://python-uv.org/docs/cli/#export
+[uv install]: https://python-uv.org/docs/cli/#install
+[uv remove]: https://python-uv.org/docs/cli/#remove
+[uv run]: https://python-uv.org/docs/cli/#run
+[uv tree]: https://python-uv.org/docs/cli/#show
+[uv lock --upgrade]: https://python-uv.org/docs/cli/#update
+[uv version]: https://python-uv.org/docs/cli/#version
+[uv]: https://python-uv.org/
 [pre-commit autoupdate]: https://pre-commit.com/#pre-commit-autoupdate
 [pre-commit configuration]: https://pre-commit.com/#adding-pre-commit-plugins-to-your-project
 [pre-commit repository-local hooks]: https://pre-commit.com/#repository-local-hooks
@@ -2720,12 +2482,12 @@ You can also read the articles on [this blog][hypermodern python blog].
 [pygments]: https://pygments.org/
 [pypa/gh-action-pypi-publish]: https://github.com/pypa/gh-action-pypi-publish
 [pypi]: https://pypi.org/
-[pyproject.toml]: https://python-poetry.org/docs/pyproject/
+[pyproject.toml]: https://python-uv.org/docs/pyproject/
 [pytest layout]: https://docs.pytest.org/en/latest/explanation/goodpractices.html#choosing-a-test-layout
 [pytest]: https://docs.pytest.org/en/latest/
-[python build]: https://python-poetry.org/docs/cli/#build
+[python build]: https://python-uv.org/docs/cli/#build
 [python package]: https://docs.python.org/3/tutorial/modules.html#packages
-[python publish]: https://python-poetry.org/docs/cli/#publish
+[python publish]: https://python-uv.org/docs/cli/#publish
 [python website]: https://www.python.org/
 [pyupgrade]: https://github.com/asottile/pyupgrade
 [read the docs]: https://readthedocs.org/
@@ -2741,11 +2503,10 @@ You can also read the articles on [this blog][hypermodern python blog].
 [salsify/action-detect-and-tag-new-version]: https://github.com/salsify/action-detect-and-tag-new-version
 [schlawack semantic]: https://hynek.me/articles/semver-will-not-save-you/
 [schreiner constraints]: https://iscinumpy.gitlab.io/post/bound-version-constraints/
-[schreiner poetry]: https://iscinumpy.gitlab.io/post/poetry-versions/
+[schreiner uv]: https://iscinumpy.gitlab.io/post/uv-versions/
 [semantic versioning]: https://semver.org/
-[sonarcloud]: https://www.sonarsource.com/products/sonarcloud/
-[sonarcloud configuration]: https://docs.sonarsource.com/sonarcloud/enriching/test-coverage/python-test-coverage/#add-the-coverage-analysis-parameter
-[sonarsource/sonarcloud-github-action]: https://github.com/SonarSource/sonarcloud-github-action
+[codecov]: https://about.codecov.io/
+[codecov/codecov-action]: https://github.com/codecov/codecov-action
 [sphinx configuration]: https://www.sphinx-doc.org/en/master/usage/configuration.html
 [sphinx-autobuild]: https://github.com/executablebooks/sphinx-autobuild
 [sphinx-click]: https://sphinx-click.readthedocs.io/
@@ -2761,7 +2522,7 @@ You can also read the articles on [this blog][hypermodern python blog].
 [typeguard]: https://github.com/agronholm/typeguard
 [unix-style line endings]: https://en.wikipedia.org/wiki/Newline
 [uv]: https://docs.astral.sh/uv/
-[versions and constraints]: https://python-poetry.org/docs/dependency-specification/
+[versions and constraints]: https://python-uv.org/docs/dependency-specification/
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [virtualenv]: https://virtualenv.pypa.io/
 [wheel]: https://www.python.org/dev/peps/pep-0427/

@@ -29,20 +29,22 @@ jobs:
       - uses: actions/setup-python@v5.6.0
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
       - name: Install tools using pip
         working-directory: ${{ github.workspace }}/ssb-pypitemplate
         run: |
           pip install --constraint=.github/workflows/constraints.txt pip
           pipx install --pip-args=--constraint=${{ github.workspace }}/ssb-pypitemplate/.github/workflows/constraints.txt cookiecutter
           pipx install --pip-args=--constraint=${{ github.workspace }}/ssb-pypitemplate/.github/workflows/constraints.txt nox
-          pipx inject --pip-args=--constraint=${{ github.workspace }}/ssb-pypitemplate/.github/workflows/constraints.txt nox nox-poetry
-          pipx install --pip-args=--constraint=${{ github.workspace }}/ssb-pypitemplate/.github/workflows/constraints.txt poetry
-          pipx inject poetry poetry-plugin-export
       - name: Generate project using Cookiecutter
         run: |
           cookiecutter --no-input ssb-pypitemplate project_name=ssb-library
-      - name: Create poetry.lock file
-        run: poetry update --lock
+      - name: Create uv lock file
+        run: uv lock
         working-directory: ssb-library
       - name: Create git repository
         if: matrix.os != 'windows-latest'
@@ -90,9 +92,6 @@ jobs:
             ${{ steps.cache_key.outputs.result }}-
       - name: Run test suite using Nox
         run: nox --force-color --python=${{ matrix.python-version }}
-        working-directory: ssb-library
-      - name: Install dependencies using Poetry
-        run: poetry install --ansi
         working-directory: ssb-library
   doc:
     name: Build documentation & check links

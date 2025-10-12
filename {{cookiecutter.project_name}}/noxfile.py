@@ -8,24 +8,7 @@ from pathlib import Path
 from textwrap import dedent
 
 import nox
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-
-
-try:
-    from nox_poetry import Session
-    from nox_poetry import session
-except ImportError:
-    message = f"""\
-    Nox failed to import the 'nox-poetry' package.
-
-    Please install it using the following command:
-
-    {sys.executable} -m pip install nox-poetry"""
-    raise SystemExit(dedent(message)) from None
-{% else %}
 from nox import Session
-
-{% endif %}
 
 package = "{{cookiecutter.package_name}}"
 python_versions = ["3.11", "3.12", "3.13"]
@@ -39,7 +22,6 @@ nox.options.sessions = (
     "xdoctest",
     "docs-build",
 )
-{% if cookiecutter.dependency_manager_tool == "uv" %}
 nox.options.default_venv_backend = "uv"
 session = nox.session
 
@@ -65,7 +47,6 @@ def install_with_uv(
     session.run_install(
         *cmd, env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location}
     )
-{% endif %}
 
 
 def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
@@ -160,17 +141,7 @@ def precommit(session: Session) -> None:
         "--hook-stage=manual",
         "--show-diff-on-failure",
     ]
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-    session.install(
-        "pre-commit",
-        "pre-commit-hooks",
-        "darglint",
-        "ruff",
-        "black",
-    )
-{% else %}
     install_with_uv(session, only_dev=True)
-{% endif %}
     session.run("pre-commit", *args)
     if args and args[0] == "install":
         activate_virtualenv_in_precommit_hooks(session)
@@ -180,12 +151,7 @@ def precommit(session: Session) -> None:
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or ["src", "tests"]
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-    session.install(".")
-    session.install("mypy", "pytest")
-{% else %}
     install_with_uv(session)
-{% endif %}
     session.run("mypy", *args)
     if not session.posargs:
         session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
@@ -194,12 +160,7 @@ def mypy(session: Session) -> None:
 @session(python=python_versions_for_test)
 def tests(session: Session) -> None:
     """Run the test suite."""
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-    session.install(".")
-    session.install("coverage[toml]", "pytest", "pygments")
-{% else %}
     install_with_uv(session)
-{% endif %}
     try:
         session.run(
             "coverage",
@@ -221,11 +182,7 @@ def coverage(session: Session) -> None:
     """Produce the coverage report."""
     args = session.posargs or ["report", "--skip-empty"]
 
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-    session.install("coverage[toml]")
-{% else %}
     install_with_uv(session)
-{% endif %}
 
     if not session.posargs and any(Path().glob(".coverage.*")):
         session.run("coverage", "combine")
@@ -236,12 +193,7 @@ def coverage(session: Session) -> None:
 @session(python=python_versions[0])
 def typeguard(session: Session) -> None:
     """Runtime type checking using Typeguard."""
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-    session.install(".")
-    session.install("pytest", "typeguard", "pygments")
-{% else %}
     install_with_uv(session)
-{% endif %}
     session.run("pytest", f"--typeguard-packages={package}", *session.posargs)
 
 
@@ -255,12 +207,7 @@ def xdoctest(session: Session) -> None:
         if "FORCE_COLOR" in os.environ:
             args.append("--colored=1")
 
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-    session.install(".")
-    session.install("xdoctest[colors]")
-{% else %}
     install_with_uv(session)
-{% endif %}
     session.run("python", "-m", "xdoctest", *args)
 
 
@@ -271,14 +218,7 @@ def docs_build(session: Session) -> None:
     if not session.posargs and "FORCE_COLOR" in os.environ:
         args.insert(0, "--color")
 
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-    session.install(".")
-    session.install(
-        "sphinx", "sphinx-autodoc-typehints", "sphinx-click", "furo", "myst-parser"
-    )
-{% else %}
     install_with_uv(session, only_dev=True)
-{% endif %}
 
     build_dir = Path("docs", "_build")
     if build_dir.exists():
@@ -291,19 +231,7 @@ def docs_build(session: Session) -> None:
 def docs(session: Session) -> None:
     """Build and serve the documentation with live reloading on file changes."""
     args = session.posargs or ["--open-browser", "docs", "docs/_build"]
-{% if cookiecutter.dependency_manager_tool == "poetry" %}
-    session.install(".")
-    session.install(
-        "sphinx",
-        "sphinx-autobuild",
-        "sphinx-autodoc-typehints",
-        "sphinx-click",
-        "furo",
-        "myst-parser",
-    )
-{% else %}
     install_with_uv(session, only_dev=True)
-{% endif %}
 
     build_dir = Path("docs", "_build")
     if build_dir.exists():

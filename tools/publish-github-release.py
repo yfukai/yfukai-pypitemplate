@@ -1,9 +1,15 @@
 import datetime
 import sys
+from pathlib import Path
 from typing import Optional
 
 import click
 import github3
+from github_app_auth import (
+    GitHubAppAuthenticationError,
+    get_installation_token,
+    load_private_key,
+)
 
 
 def publish_release(*, owner: str, repository_name: str, token: str, tag: str) -> None:
@@ -90,14 +96,40 @@ def publish_release(*, owner: str, repository_name: str, token: str, tag: str) -
     help="GitHub repository",
 )
 @click.option(
-    "--token",
-    metavar="TOKEN",
+    "--app-id",
+    metavar="APP_ID",
     required=True,
-    envvar="GITHUB_TOKEN",
-    help="GitHub API token",
+    envvar="GITHUB_APP_ID",
+    help="GitHub App identifier",
+)
+@click.option(
+    "--installation-id",
+    metavar="INSTALLATION_ID",
+    required=True,
+    envvar="GITHUB_APP_INSTALLATION_ID",
+    help="GitHub App installation identifier",
+)
+@click.option(
+    "--private-key-path",
+    type=click.Path(path_type=Path),
+    envvar="GITHUB_APP_PRIVATE_KEY_PATH",
+    help="Path to the GitHub App private key (PEM format)",
+)
+@click.option(
+    "--private-key",
+    envvar="GITHUB_APP_PRIVATE_KEY",
+    help="GitHub App private key contents",
 )
 @click.argument("tag", required=False)
-def main(owner: str, repository: str, token: str, tag: Optional[str]) -> None:
+def main(
+    owner: str,
+    repository: str,
+    tag: Optional[str],
+    app_id: str,
+    installation_id: str,
+    private_key_path: Optional[Path],
+    private_key: Optional[str],
+) -> None:
     """Publish a GitHub release for this project.
 
     If no release tag is specified, YYYY.MM.DD is used with the current date.
@@ -110,13 +142,21 @@ def main(owner: str, repository: str, token: str, tag: Optional[str]) -> None:
         tag = f"{today:%Y.%m.%d}".replace(".0", ".")
 
     try:
+        installation_token = get_installation_token(
+            app_id=app_id,
+            installation_id=installation_id,
+            private_key=load_private_key(
+                private_key=private_key, private_key_path=private_key_path
+            ),
+        )
+
         publish_release(
             owner=owner,
             repository_name=repository,
-            token=token,
+            token=installation_token,
             tag=tag,
         )
-    except Exception as error:
+    except (GitHubAppAuthenticationError, Exception) as error:
         click.secho(f"error: {error}", fg="red")
         sys.exit(1)
 

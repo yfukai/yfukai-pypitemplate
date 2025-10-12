@@ -71,11 +71,11 @@ Our goals are:
 
 The project template is centered around the following tools:
 
-- [Poetry][1] for packaging and dependency management
+- [uv][1] for packaging and dependency management
 - [Nox][2] for automation of checks and other development tasks
 - [GitHub Actions][3] for continuous integration and delivery
 
-[1]: https://python-poetry.org/
+[1]: https://docs.astral.sh/uv/
 [2]: https://nox.thea.codes/
 [3]: https://github.com/features/actions
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
