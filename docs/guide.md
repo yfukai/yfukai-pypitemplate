@@ -747,7 +747,7 @@ Dependencies fall into two categories:
 - _Development dependencies_ are only used while working on the project
   and are grouped under `[dependency-groups.dev]`.
   They are not included when the package is built for distribution.
-:::
+  :::
 
 By default, dependency managers often add both lower and upper bounds to version
 constraints.

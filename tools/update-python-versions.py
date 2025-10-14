@@ -7,7 +7,7 @@ import re
 import sys
 import urllib.request
 from pathlib import Path
-from typing import Iterable
+from typing import Sequence
 
 MANIFEST_URL = (
     "https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json"
@@ -177,7 +177,7 @@ def update_versions(versions: list[str]) -> bool:
     return changed
 
 
-def parse_args(argv: Iterable[str]) -> argparse.Namespace:
+def parse_args(argv: Sequence[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--print",
@@ -187,7 +187,7 @@ def parse_args(argv: Iterable[str]) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: Iterable[str] | None = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     args = parse_args(argv or sys.argv[1:])
     versions = fetch_supported_python_versions()
 

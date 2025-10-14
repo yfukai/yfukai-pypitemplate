@@ -103,7 +103,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5.6.0
         with:
-          python-version: "3.14"  # python-latest
+          python-version: "3.14" # python-latest
       - run: |
           pip install --constraint=${{ github.workspace }}/.github/workflows/constraints.txt pip
           pip install --constraint=${{ github.workspace }}/.github/workflows/constraints.txt nox

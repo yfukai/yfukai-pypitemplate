@@ -133,7 +133,7 @@ nox --force-python 3.13
 ### Read the Docs
 
 1. Sign in to [Read the Docs] with your GitHub account.
-2. Import your repository using the *Import a Project* workflow.
+2. Import your repository using the _Import a Project_ workflow.
 3. Select the template-generated repository and accept the defaults.
 4. Trigger the first build from the Read the Docs dashboard.
 
