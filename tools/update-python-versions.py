@@ -7,7 +7,7 @@ import re
 import sys
 import urllib.request
 from pathlib import Path
-from typing import Sequence
+from typing import Iterable, Sequence
 
 MANIFEST_URL = (
     "https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json"
@@ -51,9 +51,10 @@ def update_noxfile(path: Path, versions: list[str]) -> bool:
     text = path.read_text()
     new_text, count = pattern.subn(replacement, text, count=1)
 
-    if count:
+    if count and new_text != text:
         path.write_text(new_text)
-    return bool(count)
+        return True
+    return False
 
 
 def render_template_matrix(versions: list[str]) -> str:
@@ -101,7 +102,7 @@ def replace_block(text: str, begin: str, end: str, replacement: str) -> tuple[st
         re.DOTALL,
     )
     new_text, count = pattern.subn(lambda match: f"{match.group(1)}{replacement}{match.group(3)}", text, count=1)
-    return new_text, bool(count)
+    return new_text, bool(count and new_text != text)
 
 
 def update_template_tests_workflow(path: Path, versions: list[str]) -> bool:
@@ -118,8 +119,8 @@ def update_template_tests_workflow(path: Path, versions: list[str]) -> bool:
     )
     latest = versions[0]
     text_new = re.sub(
-        r'python-version: "\d+\.\d+"(  # python-latest)?',
-        f'python-version: "{latest}"\\1',
+        r'python-version: "\d+\.\d+"  # python-latest',
+        f'python-version: "{latest}"  # python-latest',
         text,
     )
     changed_latest = text_new != text
@@ -142,8 +143,8 @@ def update_root_tests_workflow(path: Path, versions: list[str]) -> bool:
     )
     latest = versions[0]
     text_new = re.sub(
-        r'python-version: "\d+\.\d+"(  # python-latest)?',
-        f'python-version: "{latest}"\\1',
+        r'python-version: "\d+\.\d+"  # python-latest',
+        f'python-version: "{latest}"  # python-latest',
         text,
     )
     changed_latest = text_new != text

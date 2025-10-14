@@ -2454,7 +2454,6 @@ You can also read the articles on [this blog][hypermodern python blog].
 [mypy]: https://mypy-lang.org/
 [myst]: https://myst-parser.readthedocs.io/
 [napoleon]: https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html
-[nox]: https://nox-uv.readthedocs.io/
 [nox]: https://nox.thea.codes/
 [package metadata]: https://packaging.python.org/en/latest/specifications/core-metadata/
 [pep 257]: https://peps.python.org/pep-0257/
@@ -2477,7 +2476,7 @@ You can also read the articles on [this blog][hypermodern python blog].
 [uv tree]: https://python-uv.org/docs/cli/#show
 [uv lock --upgrade]: https://python-uv.org/docs/cli/#update
 [uv version]: https://python-uv.org/docs/cli/#version
-[uv]: https://python-uv.org/
+[uv]: https://docs.astral.sh/uv/
 [pre-commit autoupdate]: https://pre-commit.com/#pre-commit-autoupdate
 [pre-commit configuration]: https://pre-commit.com/#adding-pre-commit-plugins-to-your-project
 [pre-commit repository-local hooks]: https://pre-commit.com/#repository-local-hooks
@@ -2534,7 +2533,6 @@ You can also read the articles on [this blog][hypermodern python blog].
 [type annotations]: https://docs.python.org/3/library/typing.html
 [typeguard]: https://github.com/agronholm/typeguard
 [unix-style line endings]: https://en.wikipedia.org/wiki/Newline
-[uv]: https://docs.astral.sh/uv/
 [versions and constraints]: https://docs.astral.sh/uv/concepts/projects/#specifying-dependencies
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [virtualenv]: https://virtualenv.pypa.io/
