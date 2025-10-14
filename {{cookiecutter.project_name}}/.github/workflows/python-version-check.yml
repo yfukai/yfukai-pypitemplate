@@ -1,0 +1,42 @@
+name: Update Python Versions
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-python-versions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ "${{ secrets.GITHUB_TOKEN }}" }}
+
+      - name: Update pinned Python versions
+        run: python tools/update-python-versions.py
+
+      - name: Detect changes
+        id: git-status
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open pull request
+        if: steps.git-status.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/update-python-versions
+          delete-branch: true
+          title: "chore: update Python versions"
+          commit-message: "chore: update Python versions"
+          body: |
+            - Update the list of supported Python versions to the latest stable releases.
+            - Regenerate matrices and nox configuration.

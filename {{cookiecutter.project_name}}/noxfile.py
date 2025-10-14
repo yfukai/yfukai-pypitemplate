@@ -11,8 +11,9 @@ import nox
 from nox import Session
 
 package = "{{cookiecutter.package_name}}"
-python_versions = ["3.11", "3.12", "3.13"]
-python_versions_for_test = python_versions + ["3.10"]
+SUPPORTED_PYTHON_VERSIONS = ["3.14", "3.13", "3.12", "3.11"]
+PRIMARY_PYTHON_VERSIONS = SUPPORTED_PYTHON_VERSIONS[:-1]
+DEFAULT_LATEST_PYTHON = SUPPORTED_PYTHON_VERSIONS[0]
 nox.needs_version = ">= 2021.6.6"
 nox.options.sessions = (
     "pre-commit",
@@ -132,7 +133,7 @@ def insert_header_in_hook(header: dict[str, str], lines: list[str]) -> str:
     return "\n".join(lines)
 
 
-@session(name="pre-commit", python=python_versions[0])
+@session(name="pre-commit", python=DEFAULT_LATEST_PYTHON)
 def precommit(session: Session) -> None:
     """Lint using pre-commit."""
     args = session.posargs or [
@@ -147,7 +148,7 @@ def precommit(session: Session) -> None:
         activate_virtualenv_in_precommit_hooks(session)
 
 
-@session(python=python_versions)
+@session(python=PRIMARY_PYTHON_VERSIONS)
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or ["src", "tests"]
@@ -157,7 +158,7 @@ def mypy(session: Session) -> None:
         session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
 
 
-@session(python=python_versions_for_test)
+@session(python=SUPPORTED_PYTHON_VERSIONS)
 def tests(session: Session) -> None:
     """Run the test suite."""
     install_with_uv(session)
@@ -177,7 +178,7 @@ def tests(session: Session) -> None:
             session.notify("coverage", posargs=[])
 
 
-@session(python=python_versions[0])
+@session(python=DEFAULT_LATEST_PYTHON)
 def coverage(session: Session) -> None:
     """Produce the coverage report."""
     args = session.posargs or ["report", "--skip-empty"]
@@ -190,14 +191,14 @@ def coverage(session: Session) -> None:
     session.run("coverage", *args)
 
 
-@session(python=python_versions[0])
+@session(python=DEFAULT_LATEST_PYTHON)
 def typeguard(session: Session) -> None:
     """Runtime type checking using Typeguard."""
     install_with_uv(session)
     session.run("pytest", f"--typeguard-packages={package}", *session.posargs)
 
 
-@session(python=python_versions)
+@session(python=PRIMARY_PYTHON_VERSIONS)
 def xdoctest(session: Session) -> None:
     """Run examples with xdoctest."""
     if session.posargs:
@@ -211,7 +212,7 @@ def xdoctest(session: Session) -> None:
     session.run("python", "-m", "xdoctest", *args)
 
 
-@session(name="docs-build", python=python_versions[0])
+@session(name="docs-build", python=DEFAULT_LATEST_PYTHON)
 def docs_build(session: Session) -> None:
     """Build the documentation."""
     args = session.posargs or ["docs", "docs/_build"]
@@ -227,7 +228,7 @@ def docs_build(session: Session) -> None:
     session.run("sphinx-build", *args)
 
 
-@session(python=python_versions[0])
+@session(python=DEFAULT_LATEST_PYTHON)
 def docs(session: Session) -> None:
     """Build and serve the documentation with live reloading on file changes."""
     args = session.posargs or ["--open-browser", "docs", "docs/_build"]

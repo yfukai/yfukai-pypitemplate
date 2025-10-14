@@ -29,7 +29,16 @@ pipx install uv
 
 [pipx] is preferred, but you can also install with `pip install --user`.
 
-It is recommended to set up Python 3.11, 3.12 and 3.13 using [pyenv].
+With uv installed, fetch the Python toolchains you need. For example:
+
+```console
+uv python install 3.13
+uv python install 3.12
+uv python install 3.11
+uv python install 3.10
+```
+
+uv will automatically pick up these interpreters when you run Nox sessions or `uv sync`.
 
 ## Creating a project
 
@@ -84,7 +93,7 @@ nox -s pre-commit -- install
 If you want to run the tests with a non-default python version:
 
 ```console
-nox --force-python 3.11
+nox --force-python 3.13
 ```
 
 ## Continuous Integration

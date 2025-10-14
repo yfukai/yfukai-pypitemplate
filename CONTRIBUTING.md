@@ -151,7 +151,7 @@ After publishing the release, the following automated steps are triggered:
 [issue tracker]: https://github.com/statisticsnorway/ssb-pypitemplate/issues
 [mit license]: https://opensource.org/license/mit/
 [nox]: https://nox.thea.codes/
-[poetry]: https://python-poetry.org/
+[uv]: https://docs.astral.sh/uv/
 [pull request]: https://github.com/statisticsnorway/ssb-pypitemplate/pulls
 [source code]: https://github.com/statisticsnorway/ssb-pypitemplate
 [user guide]: https://ssb-pypitemplate.readthedocs.io/en/latest/guide.html#how-to-test-your-project

@@ -5,6 +5,7 @@ import shutil
 import nox
 from nox.sessions import Session
 
+SUPPORTED_PYTHON_VERSIONS = ["3.14", "3.13", "3.12", "3.11"]
 nox.options.sessions = ["docs"]
 owner, repository = "statisticsnorway", "ssb-pypitemplate"
 labels = "cookiecutter", "documentation"

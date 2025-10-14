@@ -90,6 +90,7 @@ cruft update
 - Test automation with [Nox]
 - Linting with [pre-commit] and [ruff]
 - Continuous integration with [GitHub Actions]
+- Scheduled Python version checks with GitHub Actions
 - Documentation with [Sphinx], [MyST], and [Read the Docs] using the [furo] theme
 - Automated uploads to [PyPI] and [TestPyPI]
 - Automated release notes with [Release Drafter]

@@ -11,6 +11,7 @@ to the hypermodern python cookiecutter are described on this page.
 - Publish documentation with [Read the Docs] instead of GitHub Pages.
 - Use [Codecov] for coverage reporting.
 - Adopt [uv] for dependency management and packaging in place of Poetry.
+- Schedule automated Python version checks and pull requests.
 - Support running `pytest` directly from the command line, without using `nox`.
 - Replace flake8 and several other tools with [ruff] for linting.
 - Add library function example.

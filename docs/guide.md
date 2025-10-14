@@ -1990,6 +1990,8 @@ Workflows use the following GitHub Actions:
   - Upload coverage reports to Codecov
 - - [crazy-max/ghaction-github-labeler]
   - Manage labels on GitHub as code
+- - [peter-evans/create-pull-request]
+  - Open pull requests from automation scripts
 - - [pypa/gh-action-pypi-publish]
   - Upload packages to PyPI and TestPyPI
 - - [release-drafter/release-drafter]
@@ -2094,6 +2096,18 @@ The Tests workflow uses the following GitHub Actions:
 - [actions/cache] for caching pre-commit environments
 - [actions/upload-artifact] to upload the generated documentation and the coverage data of each tests session
 - [codecov/codecov-action] for uploading to [Codecov]
+
+(python-version-check-workflow)=
+
+### The Python version check workflow
+
+The Python version check workflow runs on the first day of every month, as well as on demand.
+It executes `tools/update-python-versions.py`, which compares the supported minor releases
+listed in Nox and the GitHub Actions matrices with the latest stable versions published for
+`actions/setup-python`.
+If a newer minor release is available, the script updates the relevant files and
+opens a pull request using [peter-evans/create-pull-request].
+This keeps the test matrix aligned with the most recent Python releases without manual intervention.
 
 The Tests workflow is defined in `.github/workflows/tests.yml`.
 
@@ -2503,7 +2517,6 @@ You can also read the articles on [this blog][hypermodern python blog].
 [salsify/action-detect-and-tag-new-version]: https://github.com/salsify/action-detect-and-tag-new-version
 [schlawack semantic]: https://hynek.me/articles/semver-will-not-save-you/
 [schreiner constraints]: https://iscinumpy.gitlab.io/post/bound-version-constraints/
-[schreiner uv]: https://iscinumpy.gitlab.io/post/uv-versions/
 [semantic versioning]: https://semver.org/
 [codecov]: https://about.codecov.io/
 [codecov/codecov-action]: https://github.com/codecov/codecov-action
@@ -2522,9 +2535,10 @@ You can also read the articles on [this blog][hypermodern python blog].
 [typeguard]: https://github.com/agronholm/typeguard
 [unix-style line endings]: https://en.wikipedia.org/wiki/Newline
 [uv]: https://docs.astral.sh/uv/
-[versions and constraints]: https://python-uv.org/docs/dependency-specification/
+[versions and constraints]: https://docs.astral.sh/uv/concepts/projects/#specifying-dependencies
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [virtualenv]: https://virtualenv.pypa.io/
 [wheel]: https://www.python.org/dev/peps/pep-0427/
 [xdoctest]: https://github.com/Erotemic/xdoctest
 [yaml]: https://yaml.org/
+[peter-evans/create-pull-request]: https://github.com/peter-evans/create-pull-request
