@@ -157,6 +157,4 @@ After publishing the release, the following automated steps are triggered:
 [pull request]: https://github.com/yfukai/yfukai-pypitemplate/pulls
 [source code]: https://github.com/yfukai/yfukai-pypitemplate
 [user guide]: docs/guide.md#how-to-test-your-project
-
-
 [code of conduct]: CODE_OF_CONDUCT.md
