@@ -726,18 +726,23 @@ The file is organised into the following sections:
 
 ### Version constraints
 
-:::{admonition} TL;DR
-This project template omits upper bounds from all version constraints.
+Dependency version ranges often need both lower and upper bounds. Lower bounds ensure that
+features you rely on are available, while carefully chosen upper bounds provide a safety net
+when upstream projects introduce breaking changes.
 
-After adding a dependency, replace constraints like `^1.2.3`
-with `>=1.2.3` in `pyproject.toml`
-and refresh the lock file with `uv lock --frozen`.
-:::
+For example, the transition from NumPy 1.x to 2.0 introduced behaviour changes that many
+libraries needed to validate before declaring support. In such cases, keeping an upper
+constraint until compatibility is confirmed prevents users from installing unsupported
+combinations.
 
-[Version constraints][versions and constraints] express
-which versions of dependencies are compatible with your project.
-They matter for both runtime dependencies
-and for tools only used during development.
+A pragmatic workflow looks like this:
+
+1. Start with a lower bound that reflects the oldest version you actively support.
+2. Add an upper bound when a dependency publishes a new major release that you have not tested yet.
+3. Remove or relax the upper bound once your project passes its test suite against the newer major version.
+
+For tooling that follows Semantic Versioning, this approach limits the blast radius of breaking changes while
+still allowing dependency updates to flow once you have verified compatibility.
 
 :::{note}
 Dependencies fall into two categories:
@@ -748,26 +753,6 @@ Dependencies fall into two categories:
   and are grouped under `[dependency-groups.dev]`.
   They are not included when the package is built for distribution.
   :::
-
-By default, dependency managers often add both lower and upper bounds to version
-constraints.
-Upper bounds provide a safety net when depending on projects that follow
-[Semantic Versioning], but they also introduce friction:
-
-1. Version caps do not play well with Python's flat dependency management.
-2. Version caps lead to frequent merge conflicts in lock files.
-
-For more background, see:
-
-- [Should You Use Upper Bound Version Constraints?][schreiner constraints] by Henry Schreiner
-- [Semantic Versioning Will Not Save You][schlawack semantic] by Hynek Schlawack
-- [Version numbers: how to use them?][gabor version] by Bernát Gábor
-- [Why I don't like SemVer anymore][cannon semver] by Brett Cannon
-
-To avoid the pitfalls mentioned above,
-the template sticks to lower-bound-only constraints such as `>=1.2.3`.
-When adding a dependency with uv, adjust the generated constraint in `pyproject.toml`
-and update the lock file with `uv lock --frozen` to keep the recorded versions intact.
 
 (the-lock-file)=
 
