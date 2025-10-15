@@ -61,7 +61,7 @@ This project was generated from [Statistics Norway]'s [SSB PyPI Template].
 
 [statistics norway]: https://www.ssb.no/en
 [pypi]: https://pypi.org/
-[ssb pypi template]: https://github.com/statisticsnorway/ssb-pypitemplate
+[ssb pypi template]: https://github.com/yfukai/yfukai-pypitemplate
 [file an issue]: https://github.com/{{cookiecutter.github_organization}}/{{cookiecutter.project_name}}/issues
 [pip]: https://pip.pypa.io/
 

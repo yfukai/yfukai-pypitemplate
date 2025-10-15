@@ -214,7 +214,7 @@ by pointing Cruft to its [GitHub repository][ssb pypi template].
 Use the `--checkout` option with the [current stable release][2025.7.18]:
 
 ```console
-cruft create https://github.com/statisticsnorway/ssb-pypitemplate.git --checkout=2025.7.18
+cruft create https://github.com/yfukai/yfukai-pypitemplate.git --checkout=2025.7.18
 ```
 
 Cruft downloads the template,
@@ -269,9 +269,6 @@ Here is a complete list of the project variables defined by this template:
 - - `code_quality_level`
   - Requirements for code quality level
   - `Medium`
-- - `dependency_manager_tool`
-  - Select between `uv` and `uv`
-  - `uv`
 - - `department_number`
   - Statistics Norway only: Department/"seksjon" number responsible for maintaining the library
   - `703`
@@ -2508,7 +2505,7 @@ You can also read the articles on [this blog][hypermodern python blog].
 [sphinx-autobuild]: https://github.com/executablebooks/sphinx-autobuild
 [sphinx-click]: https://sphinx-click.readthedocs.io/
 [sphinx]: http://www.sphinx-doc.org/
-[ssb pypi template]: https://github.com/statisticsnorway/ssb-pypitemplate
+[ssb pypi template]: https://github.com/yfukai/yfukai-pypitemplate
 [statistics norway]: https://www.ssb.no/
 [test fixture]: https://docs.pytest.org/en/latest/explanation/fixtures.html#about-fixtures
 [testpypi]: https://test.pypi.org/

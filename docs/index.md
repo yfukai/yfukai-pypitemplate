@@ -12,7 +12,7 @@ contributing
 Code of Conduct <codeofconduct>
 license
 Major changes <changes>
-Changelog <https://github.com/statisticsnorway/ssb-pypitemplate/releases>
+Changelog <https://github.com/yfukai/yfukai-pypitemplate/releases>
 ```
 
 ```{include} ../README.md
@@ -31,7 +31,7 @@ and adopted for use in [Statistics Norway].
 Use [Cruft](https://cruft.github.io/cruft/) to create and update an instance of this template.
 
 ```console
-cruft create https://github.com/statisticsnorway/ssb-pypitemplate.git --checkout=2025.7.18
+cruft create https://github.com/yfukai/yfukai-pypitemplate.git --checkout=2025.7.18
 ```
 
 To check if there are there are template updates and update your instance with

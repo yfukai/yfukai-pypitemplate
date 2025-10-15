@@ -142,20 +142,21 @@ After publishing the release, the following automated steps are triggered:
 - The Git tag is applied to the repository.
 - [Read the Docs] builds a new stable version of the documentation.
 
+<!-- github-only -->
+
 [calendar versioning]: https://calver.org/
-[continuous integration]: https://ssb-pypitemplate.readthedocs.io/en/latest/quickstart.html#continuous-integration
+[continuous integration]: docs/quickstart.md#continuous-integration
 [cookiecutter]: https://cookiecutter.readthedocs.io/
-[documentation]: https://ssb-pypitemplate.readthedocs.io/
-[github]: https://github.com/statisticsnorway/ssb-pypitemplate
+[documentation]: docs/index.md
+[github]: https://github.com/yfukai/yfukai-pypitemplate
 [github pages]: https://statisticsnorway.github.io/ssb-pypitemplate/
-[issue tracker]: https://github.com/statisticsnorway/ssb-pypitemplate/issues
+[issue tracker]: https://github.com/yfukai/yfukai-pypitemplate/issues
 [mit license]: https://opensource.org/license/mit/
 [nox]: https://nox.thea.codes/
 [uv]: https://docs.astral.sh/uv/
-[pull request]: https://github.com/statisticsnorway/ssb-pypitemplate/pulls
-[source code]: https://github.com/statisticsnorway/ssb-pypitemplate
-[user guide]: https://ssb-pypitemplate.readthedocs.io/en/latest/guide.html#how-to-test-your-project
+[pull request]: https://github.com/yfukai/yfukai-pypitemplate/pulls
+[source code]: https://github.com/yfukai/yfukai-pypitemplate
+[user guide]: docs/guide.md#how-to-test-your-project
 
-<!-- github-only -->
 
 [code of conduct]: CODE_OF_CONDUCT.md

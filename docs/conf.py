@@ -26,3 +26,4 @@ myst_enable_extensions = [
     "deflist",
     "substitution",
 ]
+myst_heading_anchors = 3

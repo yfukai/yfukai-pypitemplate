@@ -20,20 +20,20 @@
 [ruff project]: https://github.com/astral-sh/ruff
 [calver badge]: https://img.shields.io/badge/calver-YYYY.MM.DD-22bfda.svg
 [calver]: https://calver.org/
-[code of conduct]: https://github.com/statisticsnorway/ssb-pypitemplate/blob/main/CODE_OF_CONDUCT.md
+[code of conduct]: https://github.com/yfukai/yfukai-pypitemplate/blob/main/CODE_OF_CONDUCT.md
 [codecov badge]: https://codecov.io/gh/statisticsnorway/ssb-pypitemplate/branch/main/graph/badge.svg
 [codecov page]: https://app.codecov.io/gh/statisticsnorway/ssb-pypitemplate
 [contributor covenant badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
-[github actions badge]: https://github.com/statisticsnorway/ssb-pypitemplate/workflows/Tests/badge.svg
-[github actions page]: https://github.com/statisticsnorway/ssb-pypitemplate/actions?workflow=Tests
-[github page]: https://github.com/statisticsnorway/ssb-pypitemplate
+[github actions badge]: https://github.com/yfukai/yfukai-pypitemplate/workflows/Tests/badge.svg
+[github actions page]: https://github.com/yfukai/yfukai-pypitemplate/actions?workflow=Tests
+[github page]: https://github.com/yfukai/yfukai-pypitemplate
 [license badge]: https://img.shields.io/github/license/statisticsnorway/ssb-pypitemplate
 [license]: https://opensource.org/license/mit/
 [pre-commit badge]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
 [pre-commit project]: https://pre-commit.com/
 [python version badge]: https://img.shields.io/pypi/pyversions/ssb-pypitemplate-instance
 [rtd badge]: https://readthedocs.org/projects/ssb-pypitemplate/badge/
-[rtd page]: https://ssb-pypitemplate.readthedocs.io/
+[rtd page]: docs/index.md
 [status badge]: https://badgen.net/badge/status/stable/4bc51d
 
 <!-- badges-end -->
@@ -54,15 +54,15 @@ in [Statistics Norway].
 [hypermodern python]: https://medium.com/@cjolowicz/hypermodern-python-d44485d9d769
 [cookiecutter-hypermodern-python]: https://github.com/cjolowicz/cookiecutter-hypermodern-python.git
 [statistics norway]: https://www.ssb.no/en
-[quickstart]: https://ssb-pypitemplate.readthedocs.io/en/latest/quickstart.html
-[user guide]: https://ssb-pypitemplate.readthedocs.io/en/latest/guide.html
+[quickstart]: docs/quickstart.md
+[user guide]: docs/guide.md
 
 ## Usage
 
 Use [Cruft] to create and update an instance of this template.
 
 ```console
-cruft create https://github.com/statisticsnorway/ssb-pypitemplate.git --checkout=2025.7.18
+cruft create https://github.com/yfukai/yfukai-pypitemplate.git --checkout=2025.7.18
 ```
 
 Cruft downloads the template, and asks you a series of questions about project variables,

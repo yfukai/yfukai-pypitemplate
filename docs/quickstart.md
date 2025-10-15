@@ -45,7 +45,7 @@ uv will automatically pick up these interpreters when you run Nox sessions or `u
 Generate a Python project:
 
 ```console
-cruft create https://github.com/statisticsnorway/ssb-pypitemplate.git --checkout=2025.7.18
+cruft create https://github.com/yfukai/yfukai-pypitemplate.git --checkout=2025.7.18
 ```
 
 Cruft downloads the template and asks you a series of questions about project variables.
@@ -186,7 +186,7 @@ by applying labels to them, like this:
 <!-- table-release-drafter-sections-end -->
 
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
-[creating a project]: https://ssb-pypitemplate.readthedocs.io/en/latest/guide.html#creating-a-project
+[creating a project]: guide.md#creating-a-project
 [cruft]: https://cruft.github.io/cruft/
 [github]: https://github.com/
 [github pages]: https://docs.github.com/en/pages
