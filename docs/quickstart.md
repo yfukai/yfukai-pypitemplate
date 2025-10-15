@@ -96,6 +96,7 @@ If you want to run the tests with a non-default python version:
 nox --force-python 3.13
 ```
 
+(quickstart-continuous-integration)=
 ## Continuous Integration
 
 ### GitHub

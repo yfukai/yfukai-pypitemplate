@@ -22,6 +22,28 @@ end-before: <!-- badges-end -->
 ---
 ```
 
+[black badge]: https://img.shields.io/badge/code%20style-black-000000.svg
+[black project]: https://github.com/psf/black
+[calver badge]: https://img.shields.io/badge/calver-YYYY.MM.DD-22bfda.svg
+[calver]: https://calver.org/
+[code of conduct]: https://github.com/yfukai/yfukai-pypitemplate/blob/main/CODE_OF_CONDUCT.md
+[codecov badge]: https://codecov.io/gh/statisticsnorway/ssb-pypitemplate/branch/main/graph/badge.svg
+[codecov page]: https://app.codecov.io/gh/statisticsnorway/ssb-pypitemplate
+[contributor covenant badge]: https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg
+[github actions badge]: https://github.com/yfukai/yfukai-pypitemplate/workflows/Tests/badge.svg
+[github actions page]: https://github.com/yfukai/yfukai-pypitemplate/actions?workflow=Tests
+[github page]: https://github.com/yfukai/yfukai-pypitemplate
+[license badge]: https://img.shields.io/github/license/statisticsnorway/ssb-pypitemplate
+[license]: https://opensource.org/license/mit/
+[pre-commit badge]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+[pre-commit project]: https://pre-commit.com/
+[python version badge]: https://img.shields.io/pypi/pyversions/ssb-pypitemplate-instance
+[ruff badge]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+[ruff project]: https://github.com/astral-sh/ruff
+[rtd badge]: https://readthedocs.org/projects/ssb-pypitemplate/badge/
+[rtd page]: index
+[status badge]: https://badgen.net/badge/status/stable/4bc51d
+
 [Cookiecutter] template for a Python package
 based on the [Hypermodern Python] article series,
 and adopted for use in [Statistics Norway].

@@ -14,6 +14,8 @@
 [![Ruff][ruff badge]][ruff project]
 [![Contributor Covenant][contributor covenant badge]][code of conduct]
 
+<!-- badges-end -->
+
 [black badge]: https://img.shields.io/badge/code%20style-black-000000.svg
 [black project]: https://github.com/psf/black
 [ruff badge]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
@@ -36,14 +38,11 @@
 [rtd page]: docs/index.md
 [status badge]: https://badgen.net/badge/status/stable/4bc51d
 
-<!-- badges-end -->
-
 <p align="center"><img alt="logo" src="docs/_static/ssb_logo.svg" width="50%" /></p>
 
 [Cookiecutter] template for a Python package based on the
 [Hypermodern Python] article series.
-This repo is a fork of [cookiecutter-hypermodern-python], and adjusted for use
-in [Statistics Norway].
+This repo is a fork of [ssb-pypitemplate], originally built on [cookiecutter-hypermodern-python], and adjusted for use for [myself].
 
 ✨📚✨ [Read the full documentation][rtd page]
 
@@ -53,7 +52,8 @@ in [Statistics Norway].
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 [hypermodern python]: https://medium.com/@cjolowicz/hypermodern-python-d44485d9d769
 [cookiecutter-hypermodern-python]: https://github.com/cjolowicz/cookiecutter-hypermodern-python.git
-[statistics norway]: https://www.ssb.no/en
+[ssb-pypitemplate]: https://github.com/statisticsnorway/ssb-pypitemplate
+[myself]: https://yfukai.net
 [quickstart]: docs/quickstart.md
 [user guide]: docs/guide.md
 
